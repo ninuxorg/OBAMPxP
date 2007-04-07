@@ -1,0 +1,59 @@
+Compilare i sorgenti con Apache Ant===================================
+
+Per iniziare, scarichiamo l'ultima versione di Ant dal seguente 
+indirizzo: http://ant.apache.org/bindownload.cgi.
+Scompattato il file in una directory del File System, 
+dobbiamo settare la variabile di ambiente ANT_HOME ed aggiornare 
+la variabile di ambiente PATH 
+(si presuppone che l'utente abbia già installato sulla propria 
+macchina un JDK e correttamente settato la variabile di ambiente 
+JAVA_HOME).
+
+Ad esempio, indicando con ant_home la directory in cui è stato 
+scompattato Apache Ant e java_home la directory in cui si trova 
+il JDK:
+1) Su una macchina Linux:
+    * export ANT_HOME=/usr/local/ant_home
+    * export JAVA_HOME=/usr/local/jdk_home
+    * export PATH=${PATH}:${ANT_HOME}/bin:${JAVA_HOME}/bin 
+2) Su una macchina Windows:
+    * set ANT_HOME=C:\ant_home
+    * set JAVA_HOME=C:\jdk_home
+    * set PATH=%PATH%;%ANT_HOME%\bin;%JAVA_HOME%\bin
+    
+A questo punto, posizionata la shell all'interno della directory
+"OBAMP\trunk", eseguendo il comando "ant dist", avviamo 
+automaticamente la compilazione di tutti i sorgenti. 
+Terminata la compilazione, all'interno della directory "trunk"
+viene creata una cartella "bin" contenente
+tutte le classi compilate e una seconda cartella "dist" 
+in cui troviamo la distribuzione binaria (OBAMPxP.jar) ed i file
+di configurazione.
+
+Esecuzione del proxy OBAMPxP==========================================
+
+Prima di avviare il proxy, bisogna editare correttamente i file di 
+configurazione "obamp.cfg" e "obamp_nodes.txt".
+Nel primo file l'unica modifica importante da fare è inserire il 
+corretto indirizzo IP della macchina su cui si vuol far girare il 
+protocollo, è la prima voce del file, compresa tra i tag 
+<local_address>.
+Nel secondo file invece va inserita la lista dei possibili indirizzi 
+IP partecipanti alla sessione di multicast.
+
+Una volta settati corretamente questi parametri, si può eseguire il 
+file OBAMPxP.jar con un semplice click del mouse, oppure da
+shell con il seguente comando:
+	java -jar OBAMPxP.jar 
+Per avviare la sessione, premere il pulsante Join sulla GUI di OBAMPxP.
+
+Invio e ricezione di dati multicaat====================================
+
+Le porte locali per la ricezione e l'invio dei dati sull'albero di 
+multicast sono rispettivamente la 9000 e la 9002.
+Se per esempio vogliamo trasmettere una canzone tramite VLC 
+al gruppo di multicast dobbiamo settare VLC in modo che trasmetti
+all'indirizzo della macchina locale (localhost) sulla porta 9002. Per 
+la ricezione invece dobbiamo mettere in ascolto VLC in locale sulla
+porta 9000.
+ 
