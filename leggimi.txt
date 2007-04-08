@@ -34,10 +34,10 @@ Esecuzione del proxy OBAMPxP==========================================
 
 Prima di avviare il proxy, bisogna editare correttamente i file di 
 configurazione "obamp.cfg" e "obamp_nodes.txt".
-Nel primo file l'unica modifica importante da fare è inserire il 
+Nel primo file le uniche modificche importanti da fare sono inserire il 
 corretto indirizzo IP della macchina su cui si vuol far girare il 
-protocollo, è la prima voce del file, compresa tra i tag 
-<local_address>.
+protocollo ed il sistema operativo usato (Windows o Linux), sono le voci 
+incluse tra i tag <local_address> e <Operative_System>.
 Nel secondo file invece va inserita la lista dei possibili indirizzi 
 IP partecipanti alla sessione di multicast.
 
