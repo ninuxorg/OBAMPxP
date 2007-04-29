@@ -17,9 +17,6 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     
 */
-/*
-    Esempio di Sender di UDP packets
-*/
 
 import java.net.*;
 import java.io.*;

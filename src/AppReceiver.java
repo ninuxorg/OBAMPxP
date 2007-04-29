@@ -63,7 +63,7 @@ public class AppReceiver implements Runnable {
      	this.dm = dm_;
      
    	} 
- 
+  
   public void setTextArea (TextArea area) {
      this.outputArea = area;
   }

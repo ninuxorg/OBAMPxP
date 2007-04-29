@@ -17,6 +17,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     
 */
+
 import java.io.*;
 import java.awt.*;
 
@@ -142,13 +143,13 @@ public class CollabTool extends Frame {
     button3.setBounds(140, 107, 20, 20);
     this.add(button3);
     
-    button4 = new Button("4");
-    button4.setBounds(170, 107, 20, 20);
-    this.add(button4);
+    //button4 = new Button("4");
+    //button4.setBounds(170, 107, 20, 20);
+    //this.add(button4);
     
-    button5 = new Button("5");
-    button5.setBounds(200, 107, 20, 20);
-    this.add(button5);
+    //button5 = new Button("5");
+    //button5.setBounds(200, 107, 20, 20);
+    //this.add(button5);
     
 	label11 = new Label("ON");
     label11.setBounds(78, 90, 30, 20);
@@ -162,13 +163,13 @@ public class CollabTool extends Frame {
     label13.setBounds(138, 90, 30, 20);
     this.add(label13);
     
-	label14 = new Label("OFF");
-    label14.setBounds(168, 90, 30, 20);
-    this.add(label14);
+	//label14 = new Label("OFF");
+    //label14.setBounds(168, 90, 30, 20);
+    //this.add(label14);
 	
-    label15 = new Label("OFF");
-    label15.setBounds(198, 90, 30, 20);
-    this.add(label15);
+    //label15 = new Label("OFF");
+    //label15.setBounds(198, 90, 30, 20);
+    //this.add(label15);
     
     setSize(500, 710);
     setVisible(true);
