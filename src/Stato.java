@@ -208,7 +208,7 @@ public class Stato /*implements Serializable*/ {
         
         String IPString = i1.toString()+i2.toString()+i3.toString()+i4.toString();
         Integer IPint = new Integer (IPString);
-    	return IPint;
+    	return IPint.intValue();
     }
     
 
