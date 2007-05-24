@@ -18,11 +18,12 @@
     
 */
 
-import java.net.*;
-import java.io.*;
-import java.awt.*;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
 
-import prominence.util.*;
+import prominence.util.Queue;
 
 public class MulticastSignallingSender implements Runnable{
 	
