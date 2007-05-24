@@ -18,11 +18,11 @@
     
 */
 
-import java.net.*;
-import java.io.*;
-import java.awt.*;
-
-import Multicast.OverlayNeighbor;
+import java.awt.TextArea;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
 
 public class MulticastSignallingReceiver implements Runnable {
 		
