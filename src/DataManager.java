@@ -18,13 +18,15 @@
     
 */
 
-import java.io.*;
-import java.awt.*;
-import java.util.*;
-import Multicast.*;
-import java.net.*;
-import java.lang.System;
+import java.awt.Checkbox;
+import java.awt.TextArea;
+import java.net.DatagramPacket;
+import java.net.InetAddress;
+import java.util.Enumeration;
+import java.util.Hashtable;
+
 import prominence.util.Queue;
+import Multicast.OverlayNeighbor;
 
 
 public class  DataManager implements Runnable{
@@ -79,7 +81,7 @@ public class  DataManager implements Runnable{
     private int data_counter_Channel_Four;
     private int data_counter_Channel_Five;
 	private byte[] rcvPKT;	
-	// private byte[] previousHOP; // unused atm
+	private byte[] previousHOP;
 	private boolean ret;
 	private CollabTool collab;
 	
