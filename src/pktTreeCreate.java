@@ -18,11 +18,7 @@
     
 */
 
-import java.io.*;
-import java.net.*;
-
-import Multicast.*;
-import prominence.util.Queue; 
+import java.net.InetAddress;
 
 public class pktTreeCreate {
 	

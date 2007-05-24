@@ -20,7 +20,6 @@
 
 import java.util.Enumeration;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import Multicast.OverlayNeighbor;
 
