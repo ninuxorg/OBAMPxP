@@ -225,6 +225,7 @@ public class CollabTool extends Frame {
      	dm = new DataManager(this);
     	dm.setTextArea(outputArea1, enable_broadcast);
     	dm.setSignalling(sig);
+    	dm.startThread();
         local = 1;
     	} catch (Exception ex) {
            		ex.printStackTrace ();

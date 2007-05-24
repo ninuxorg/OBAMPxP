@@ -32,7 +32,8 @@ import Multicast.OverlayNeighbor;
 public class  DataManager implements Runnable{
 
 	protected Thread exec;
-	protected Signalling sig;
+	// TODO: is volatile still needed here? (fabian)
+	protected volatile Signalling sig;
 	protected InetAddress myIP;
 	protected TextArea outputArea;
 	protected Hashtable nb;
@@ -141,7 +142,7 @@ public class  DataManager implements Runnable{
         
      	exec = new Thread (this, "DATAMANAGER");
      	//exec.setPriority(1);
-     	exec.start ();
+     	// do not start here anymore ... race-cond ... use startThread()
      
    	}
    	
@@ -560,7 +561,13 @@ case 5://Channel FIVE
 			
 		}	
    		
-   }
+	}
+	
+    // needed to fix race-condition in Signalling.button1_Clicked(...)
+	public void startThread() {
+		exec.start ();
+	}
+
 	
 	
 }
