@@ -19,11 +19,11 @@
 */
 
 import java.io.IOException;
-import prominence.util.*;
-import java.net.MulticastSocket;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.MulticastSocket;
+
+import prominence.util.Queue;
 
 public class MulticastTreeDataSender implements Runnable{
 	
