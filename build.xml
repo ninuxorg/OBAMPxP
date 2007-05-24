@@ -62,6 +62,7 @@
     <jar jarfile="${dist.home}/${app.name}.jar"
          basedir="${build.home}"
          manifest="MANIFEST.MF"
+    	 index="true"
     />
     <copy file="obamp.cfg" todir="${dist.home}"/>
     <copy file="obamp_nodes.txt" todir="${dist.home}"/>
@@ -69,6 +70,8 @@
     <copy todir="${dist.home}/lib">
 		<fileset dir="lib"/>
     </copy>
+    <copy file="obamp.sh" todir="${dist.home}"/>
+    <copy file="obamp.bat" todir="${dist.home}"/>
     <copy todir="${dist.home}\image">
     	<fileset dir="image"/>
   	</copy>
