@@ -79,7 +79,7 @@ public class  DataManager implements Runnable{
     private int data_counter_Channel_Four;
     private int data_counter_Channel_Five;
 	private byte[] rcvPKT;	
-	private byte[] previousHOP;
+	// private byte[] previousHOP; // unused atm
 	private boolean ret;
 	private CollabTool collab;
 	
