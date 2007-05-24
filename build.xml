@@ -65,6 +65,10 @@
     />
     <copy file="obamp.cfg" todir="${dist.home}"/>
     <copy file="obamp_nodes.txt" todir="${dist.home}"/>
+   	<copy file="log4j.properties" todir="${dist.home}"/>
+    <copy todir="${dist.home}/lib">
+		<fileset dir="lib"/>
+    </copy>
     <copy todir="${dist.home}\image">
     	<fileset dir="image"/>
   	</copy>
