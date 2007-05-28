@@ -72,6 +72,10 @@ public class UnicastTreeDataReceiver implements Runnable {
 			byte [] buffer_temp = new byte[65535] ;
 			dpacket_temp = new DatagramPacket( buffer_temp, buffer_temp.length ) ;
 
+			if (log.isDebugEnabled()) {
+				log.debug("sig="+sig);
+				log.debug("sig.signalling_use="+sig.signalling_use);
+			}
 			while(true) {
 
 				dsocket.receive( dpacket_temp ) ;
@@ -79,10 +83,6 @@ public class UnicastTreeDataReceiver implements Runnable {
 				System.arraycopy(buffer_temp,0,buffer,0,dpacket_temp.getLength());
 				DatagramPacket dpacket =  new DatagramPacket(buffer, buffer.length ) ;
 				dpacket_temp.setLength(buffer_temp.length);              
-				if (log.isDebugEnabled()) {
-					log.debug("sig="+sig);
-					log.debug("sig.signalling_use="+sig.signalling_use);
-				}
 				synchronized(sig.signalling_use){
 					sig.update_last_recv_time(dpacket_temp.getAddress());
 				}
