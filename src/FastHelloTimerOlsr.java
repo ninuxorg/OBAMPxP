@@ -1,5 +1,5 @@
 /*    
- Copyright (C) 2007 Fabian Bieker
+ Copyright (C) 2007 Fabian Bieker, Andrea Detti, Remo Pomposini, Roberto Zanetti
  This file is part of "Obamp Proxy",
 
  "Obamp Proxy" is free software; you can redistribute it and/or modify
