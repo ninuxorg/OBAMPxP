@@ -25,6 +25,7 @@
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src" excludes="**/*.launch, **/*.java"/>
         </copy>
+    	<copy file="log4j.properties" todir="${build.home}"/>
     </target>
     <target name="clean">
         <delete dir="bin"/>
@@ -54,7 +55,7 @@
      <manifest file="MANIFEST.MF">
         <attribute name="Built-By" value="Remo Pomposini"/>
         <attribute name="Main-Class" value="CollabTool"/>
-				<attribute name="Class-Path" value="db\DB_Contest.class"/>        
+		<attribute name="Class-Path" value="db\DB_Contest.class:lib\log4j-1.2.14.jar"/>        
     </manifest>    
     <copy todir="${build.home}">
     	<fileset dir="db"/>
