@@ -30,10 +30,16 @@
 import java.net.*;
 import java.io.*;
 import java.awt.*;
+
+import org.apache.log4j.Logger;
+
 import prominence.util.Queue;
 import Multicast.*;
 
 public class AppReceiver implements Runnable {
+	
+	private static final Logger log = 
+		Logger.getLogger(AppReceiver.class);
 	
 	protected Queue q;
 	protected Thread exec;
@@ -109,7 +115,8 @@ public class AppReceiver implements Runnable {
         	}
   		  
     	} catch (IOException ex) {
-      	ex.printStackTrace ();
+    		// FIXME: bad exception handling
+    		log.warn("failed to get socket on "+LocalAddress+":"+port, ex);
     	}   
       
   }	
