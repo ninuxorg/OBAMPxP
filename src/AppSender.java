@@ -20,11 +20,16 @@
 
 import java.io.IOException;
 import java.net.InetAddress;
-import prominence.util.*;
+import prominence.util.Queue;
 import java.net.DatagramSocket;
 import java.net.DatagramPacket;
 
+import org.apache.log4j.Logger;
+
 public class AppSender implements Runnable{
+	
+	private static final Logger log =
+		Logger.getLogger(AppSender.class);
 	
 	protected Thread exec;
 	protected Queue q ;
@@ -43,26 +48,31 @@ public class AppSender implements Runnable{
 		try {
 			application_socket = new DatagramSocket(socketPort, LocalAddress);
 			application_socket.setSendBufferSize(65535);
-			application_socket.setBroadcast(false);
-			
-			
+			application_socket.setBroadcast(false);	
+		// FIXME: bad excpetion handling
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.warn("failed to get socket on "+LocalAddress+":"+socketPort);
 		}
 		exec = new Thread (this, "APPSENDER");
 		exec.start ();
 	}
+	
 	public void run() {
 		// TODO Auto-generated method stub
 		while (true) {
 			DatagramPacket pkt = (DatagramPacket)q.remove();
+			if (log.isDebugEnabled())
+				log.debug("new DatagramPacket(" + pkt.getData() +
+						",11," + (pkt.getLength() - 11) + "," +
+						LocalAddress + "," + appTXport + ")");
 			try {
-				DatagramPacket pkt_to_send = new DatagramPacket(pkt.getData(),11,pkt.getLength()-11,LocalAddress,appTXport);
+				DatagramPacket pkt_to_send = new DatagramPacket(
+						pkt.getData(),11,pkt.getLength()-11,
+						LocalAddress,appTXport);
 				application_socket.send(pkt_to_send);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.warn("I/O error while sending UDP packet to " + 
+						LocalAddress+":"+appTXport, e);
 			}
 		}
 		
