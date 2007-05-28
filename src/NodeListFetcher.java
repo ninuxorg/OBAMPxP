@@ -69,7 +69,7 @@ public class NodeListFetcher {
 		if (url != null && url.length() > 0 && !url.equals("ciao"))
 			getUrl(url);
 		else
-			log.warn("empty node list URL, not fetching it...");
+			log.info("empty node list URL, not fetching it...");
 	}
 	
 	/**
