@@ -25,8 +25,6 @@ public class JoinedListEntry {
 	public long Texpire;
 	public byte JoinSequenceNumber;
 
-
-
 	public JoinedListEntry(String metrica_, String IPaddress_, 
 			long Texpire_, byte SequenceNumber_){
 
@@ -41,9 +39,4 @@ public class JoinedListEntry {
 		metrica + ", IPaddress=" + IPaddress + ", Texpire=" + Texpire + 
 		", Seq=" + JoinSequenceNumber + ")";
 	}
-
-
-
-
-
 }
