@@ -32,8 +32,8 @@ import java.awt.TextArea;
 import java.awt.TextField;
 import java.awt.Toolkit;
 import java.io.IOException;
+
 import org.apache.log4j.Logger;
-import org.apache.log4j.BasicConfigurator;
 
 
 public class CollabTool extends Frame {
@@ -225,7 +225,7 @@ public class CollabTool extends Frame {
 
 	void button1_Clicked(Event event) {
      	try {
-     	log.debug(this.getClass().getCanonicalName()+".button1_Clicked(...)");
+     	log.debug(this.getClass().getName()+".button1_Clicked(...)");
      	sig = new Signalling(enable_broadcast);
      	sig.setTextArea(outputArea1, outputArea2,outputArea3,label5,label6,sig_dump_box);
      	dm = new DataManager(this);
