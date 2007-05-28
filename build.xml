@@ -55,7 +55,7 @@
      <manifest file="MANIFEST.MF">
         <attribute name="Built-By" value="Remo Pomposini"/>
         <attribute name="Main-Class" value="CollabTool"/>
-		<attribute name="Class-Path" value="db\DB_Contest.class:lib\log4j-1.2.14.jar"/>        
+		<attribute name="Class-Path" value="db\DB_Contest.class lib\log4j-1.2.14.jar"/>        
     </manifest>    
     <copy todir="${build.home}">
     	<fileset dir="db"/>
