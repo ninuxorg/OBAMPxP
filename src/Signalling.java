@@ -108,7 +108,12 @@ public class Signalling implements Runnable{
     public Signalling (Checkbox check_) throws Exception {
     	
         db = new DB_Contest("obamp.cfg");
-        local_address = InetAddress.getByName(db.get("local_address"));
+        try {
+            local_address = InetAddress.getByName(db.get("local_address"));
+        } catch (UnknownHostException e) {
+        	log.warn("Unkown host"+db.get("local_address")+" defaulting to localhost");
+        	local_address = InetAddress.getByName("localhost");
+        }
         sig_port = new Integer( db.get("signalling_port")).intValue();
     	broadcast_port = new Integer( db.get("multicast_signalling_port")).intValue();
     	multicast_address = InetAddress.getByName(db.get("multicast_address"));
