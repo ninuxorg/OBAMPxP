@@ -19,24 +19,30 @@
 */
 
 public class JoinedListEntry {
-	
+
 	public String metrica;
 	public String IPaddress;
 	public long Texpire;
 	public byte JoinSequenceNumber;
-	
-	
-	
-public JoinedListEntry(String metrica_, String IPaddress_, long Texpire_, byte SequenceNumber_){
-		
+
+
+
+	public JoinedListEntry(String metrica_, String IPaddress_, 
+			long Texpire_, byte SequenceNumber_){
+
 		metrica = metrica_;
 		IPaddress = IPaddress_;
 		Texpire = Texpire_;
 		JoinSequenceNumber = SequenceNumber_;
-		
-		
 	}
-	
+
+	public String toString() {
+		return this.getClass().getName() + "(metrica=" + 
+		metrica + ", IPaddress=" + IPaddress + ", Texpire=" + Texpire + 
+		", Seq=" + JoinSequenceNumber + ")";
+	}
+
+
 
 
 
