@@ -107,6 +107,9 @@ public class AppReceiver implements Runnable {
                 DatagramPacket dpacket =  new DatagramPacket(buffer, buffer.length );
                 dpacket_temp.setLength(buffer_temp.length);    
                 
+                if (log.isDebugEnabled())
+    				log.debug("received new DatagramPacket: " + dpacket);
+                
                 dm.qApp.add(dpacket);
                 
                 Integer req = new Integer(1);

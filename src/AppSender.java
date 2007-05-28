@@ -38,7 +38,6 @@ public class AppSender implements Runnable{
 	protected InetAddress LocalAddress;
 	protected int socketPort;
 	
-	
 	public AppSender (InetAddress LocalAddress_, int socketPort_, int appTXport_) {
 		
 		LocalAddress = LocalAddress_;
@@ -62,7 +61,7 @@ public class AppSender implements Runnable{
 		while (true) {
 			DatagramPacket pkt = (DatagramPacket)q.remove();
 			if (log.isDebugEnabled())
-				log.debug("new DatagramPacket(" + pkt.getData() +
+				log.debug("sending new DatagramPacket(" + pkt.getData() +
 						",11," + (pkt.getLength() - 11) + "," +
 						LocalAddress + "," + appTXport + ")");
 			try {
