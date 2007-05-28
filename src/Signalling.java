@@ -35,12 +35,17 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Random;
 
+import org.apache.log4j.Logger;
+
 import prominence.util.Queue;
 import Multicast.OverlayNeighbor;
 
- 
+
 public class Signalling implements Runnable{
-   
+	
+	private static final Logger log =
+		Logger.getLogger(CollabTool.class);
+	
 	protected Hashtable neighbors;
 	protected Hashtable old_neighbors;
    	protected OverlayNeighbor nb;
@@ -123,6 +128,14 @@ public class Signalling implements Runnable{
         state = new Stato(local_address, sig_port);
         state.MAX_TTL = new Integer( db.get("Join_Req_max_TTL")).intValue();
     	state.hello_max_ttl = new Integer( db.get("Hello_max_TTL")).intValue();
+    	
+    	//  try to get obamp_nodes.txt from a URL
+        try {
+        	NodeListFetcher.getUrl(db);
+        } catch (IOException e) {
+        	log.error("Failed to get " + NodeListFetcher.OBAMP_NODES_FILE, e);
+        }
+        
         q = new Queue();
         neighbors = new Hashtable();
         old_neighbors = new Hashtable();
