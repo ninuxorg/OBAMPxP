@@ -25,9 +25,10 @@ import java.net.InetAddress;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import org.apache.log4j.Logger;
+
 import prominence.util.Queue;
 import Multicast.OverlayNeighbor;
-
 
 public class  DataManager implements Runnable{
 
@@ -91,6 +92,9 @@ public class  DataManager implements Runnable{
 	private int multicast_data_port;
 	private InetAddress multicast_data_address;
 	protected Checkbox enable_broadcast;
+	
+	private static final Logger log =
+		Logger.getLogger(DataManager.class);
 	
 	public DataManager (CollabTool collab_) throws Exception {
      
@@ -536,8 +540,10 @@ case 5://Channel FIVE
         
     }
     
-	public void run () {
+	public void run() {
 		
+		
+		log.debug("run() called, sig=="+sig);
 		dataR = new UnicastTreeDataReceiver(dataport, myIP, sig);//dataport);
     	dataR.setDataManager(this);
     	appR_1 = new AppReceiver(appRCVportChannelOne, myIP,1);
@@ -560,14 +566,11 @@ case 5://Channel FIVE
 			//}
 			
 		}	
-   		
 	}
 	
     // needed to fix race-condition in Signalling.button1_Clicked(...)
 	public void startThread() {
 		exec.start ();
-	}
-
-	
+	}	
 	
 }

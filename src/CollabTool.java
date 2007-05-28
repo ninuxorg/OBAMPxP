@@ -32,8 +32,8 @@ import java.awt.TextArea;
 import java.awt.TextField;
 import java.awt.Toolkit;
 import java.io.IOException;
-
 import org.apache.log4j.Logger;
+import org.apache.log4j.BasicConfigurator;
 
 
 public class CollabTool extends Frame {
@@ -60,7 +60,7 @@ public class CollabTool extends Frame {
     protected int number_of_click_button4;
     protected int number_of_click_button5;
 	protected int local;
-		    
+
   public CollabTool ( String arg[] ) throws IOException {
     super ("OBAMP Proxy");
     super.setResizable(true);
@@ -93,7 +93,6 @@ public class CollabTool extends Frame {
         mt1.addImage(logo, 0);
 		mt1.waitForID(0);
 	} catch (InterruptedException e) {
-		e.printStackTrace();
 		log.info("Interrupted in Interfaccia()", e);
 	}
     
@@ -226,6 +225,7 @@ public class CollabTool extends Frame {
 
 	void button1_Clicked(Event event) {
      	try {
+     	log.debug(this.getClass().getCanonicalName()+".button1_Clicked(...)");
      	sig = new Signalling(enable_broadcast);
      	sig.setTextArea(outputArea1, outputArea2,outputArea3,label5,label6,sig_dump_box);
      	dm = new DataManager(this);
@@ -234,7 +234,7 @@ public class CollabTool extends Frame {
     	dm.startThread();
         local = 1;
     	} catch (Exception ex) {
-           		log.error("Error in button1_Clicked", ex);
+    		log.error("Error when button1 was clicked", ex);
         }
     	
     }
@@ -250,8 +250,8 @@ public class CollabTool extends Frame {
      		}
      	}
     	} catch (Exception ex) {
-    		log.error("Error in button2_Clicked", ex);
-        }
+    		log.error("Error when button2 was clicked", ex);
+    	}
     	
     }
 	
@@ -267,7 +267,7 @@ public class CollabTool extends Frame {
      		}
      		}
     	} catch (Exception ex) {
-    		log.error("Error in button3_Clicked", ex);
+    		log.error("Error when button3 was clicked", ex);
         }
     	
     }
@@ -282,7 +282,7 @@ public class CollabTool extends Frame {
      		}
      		}
     	} catch (Exception ex) {
-    		log.error("Error in button4_Clicked", ex);
+    		log.error("Error when button4 was clicked", ex);
         }
     	
     }
@@ -299,12 +299,11 @@ public class CollabTool extends Frame {
      	}
      		}
     	} catch (Exception ex) {
-    		log.error("Error in button4_Clicked", ex);
+    			log.error("Error when button5 was clicked", ex);
         }
     	
     }
-	
-	
+
 	static public void main (String args[]) throws IOException { 
 			Log4jInit.init();
 
