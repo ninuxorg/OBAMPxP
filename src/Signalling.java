@@ -30,7 +30,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Random;
@@ -148,10 +150,17 @@ public class Signalling implements Runnable{
         check = check_;
         if (Operative_System.equals("Windows")){
         	cmd = "route print ";
-        	}
+        }
         else if (Operative_System.equals("Linux")){
         	cmd = "route -n ";
-        	}
+        }
+        else if (Operative_System.toLowerCase().equals("olsr")){
+        	//cmd = "cat /Users/fb/Documents/eclipse-workspace/"
+        	//	+"OBAMP-trunk/olsrd-txtinfo.txt"; // testing
+        	cmd = "telnet localhost 2006"; // not used
+
+        }
+        
         
         fastHelloActive = true;
         nullIP = InetAddress.getByName("0.0.0.0");
@@ -384,6 +393,8 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
         UnicastData usp = new  UnicastData(data,dest_addr);
         USigSend.q.add(usp);
         if (sig_dump_box.getState())  outputArea.append("send Hello-Conf to "+ dest_addr + "\n");
+        log.info("send Hello-Conf to " + dest_addr + 
+        		" seq: "+SequenceNumber);
     }
    
   
@@ -464,7 +475,9 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
             	pktTreeCreate packet = new pktTreeCreate(state.TreeCreateSequenceNumber, state.MyAddress, state.CoreAddress, delay, pktNodeMap, this);
         		UnicastData uData = new UnicastData(packet.getData(), value.IPAddress);
         		USigSend.q.add(uData);
-        		if (sig_dump_box.getState())  outputArea.append(state.TreeCreateSequenceNumber +" send Tree-Create to " + value.GetIPaddress() + "\n");
+        		if (sig_dump_box.getState())
+        			outputArea.append(state.TreeCreateSequenceNumber +" send Tree-Create to " + value.GetIPaddress() + "\n");
+        		log.info(state.TreeCreateSequenceNumber +" send Tree-Create to " + value.GetIPaddress());
             }else{
             	if(value.distance==1){
             		delay = 0;
@@ -474,6 +487,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
             			MSigSend.q.add(mData);
             			multicast_done = true;
             			if (sig_dump_box.getState())  outputArea.append(state.TreeCreateSequenceNumber +" send broadcast Tree-Create" + "\n");
+            			log.info(state.TreeCreateSequenceNumber +" send broadcast Tree-Create");
             		}       
 				}          	
             }
@@ -489,6 +503,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
             		UnicastData uData = new UnicastData(packet.getData(), value.IPAddress);
             		USigSend.q.add(uData);
             		if (sig_dump_box.getState())  outputArea.append(state.TreeCreateSequenceNumber +" send Tree-Create to " + value.GetIPaddress() + "\n");
+            		log.info(state.TreeCreateSequenceNumber +" send Tree-Create to " + value.GetIPaddress());
                 }
             	else{
             		if(value.distance==1){
@@ -497,6 +512,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
                 		UnicastData uData = new UnicastData(packet.getData(), value.IPAddress);
                 		USigSend.q.add(uData);
                 		if (sig_dump_box.getState())  outputArea.append(state.TreeCreateSequenceNumber +" send Tree-Create to " + value.GetIPaddress() + "\n");  
+                		log.info(state.TreeCreateSequenceNumber +" send Tree-Create to " + value.GetIPaddress());  
     				}  
             	}
             	
@@ -510,14 +526,27 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
     
     void sendOuterTreeCreate() {
     	
+    	// TODO: only create this sock if configured to do olsr
+    	Socket sock = new Socket();
     	try {
-    		
-  		   	BufferedReader route_printb1 = new BufferedReader (new InputStreamReader(Runtime.getRuntime().exec(this.cmd).getInputStream()));
-			String str_route_print1;
+    		BufferedReader route_printb1;
+    		if (Operative_System.toLowerCase().equals("olsr"))
+    			route_printb1 = FastHelloTimerOlsr.connectToOlsrdInfo(sock);
+    		else
+    			route_printb1 = new BufferedReader (
+    					new InputStreamReader(
+    							Runtime.getRuntime().exec(this.cmd).getInputStream()));
+    		String str_route_print1;
 			
-			while ((str_route_print1 = route_printb1.readLine()) !=null){
-				if (str_route_print1.lastIndexOf("Metric") >=0 )
+    		while ((str_route_print1 = route_printb1.readLine()) !=null){
+				//log.debug("sendOuterTreeCreate() - str_route_print1="
+	        	//		+str_route_print1);
+				
+				// breaks at olsr routing table from infotxt plugin, too
+				if (str_route_print1.lastIndexOf("Metric") >=0)
 					break;
+				//if (Operative_System.toLowerCase().equals("olsr") && str_route_print1.contains("Table: Route"))
+				//	break;
 			}
 			
 			route_printb1.mark(1);
@@ -562,15 +591,66 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 						}
     				}
 		        }
+		        else if (Operative_System.toLowerCase().equals("olsr")){
+		        	// TODO: cleanup this nasty parsing hack
+		        	log.debug("sendOuterTreeCreate() - olsr branch");
+		        	if (log.isInfoEnabled()) {
+		        		// FIXME: not java 1.4.2
+		        		//log.info("mesh_list_vector="+Arrays.toString(mesh_list_vector));
+		        		log.info("mesh_list_vector=" + 
+		        				Arrays.asList(mesh_list_vector));
+		        	}
+		        	while ((str_route_print1 = route_printb1.readLine()) !=null){
+		        		//log.debug("sendOuterTreeCreate() - olsr branch" +
+		        		//		" - read: '"+str_route_print1+"'");
+
+		        		if (!(str_route_print1.indexOf(' ') >= 0 
+		        				|| str_route_print1.indexOf('\t') >= 0))
+		        			continue;
+
+		        		int endIndex = str_route_print1.indexOf('\t');
+		        		if (endIndex < 0)
+		        			endIndex = str_route_print1.indexOf(' ');
+		        		String addressIP = str_route_print1.substring(0, endIndex);
+		        		log.debug("addressIp=\""+addressIP+"\"");
+		        		for(int h=0; h<mesh_list_vector.length; h++){
+		        			if(mesh_list_vector[h].equals(addressIP)){
+
+		        				//String metrica = str_route_print1.substring(70, str_route_print1.length());
+		        				InetAddress tmpHostName = InetAddress.getByName(addressIP);
+		        				log.info("added "+tmpHostName+" to MEMBER_LIST");
+		        				MEMBER_LIST[h]= tmpHostName;
+		        			}
+		        			else{
+		        				continue;
+		        			}
+		        		}
+		        	}
+		        }
 				
     	int IPcore = (int) state.getAddressInt(state.CoreAddress);
+    	log.info("state.CoreAddress="+state.CoreAddress);
+		if (log.isDebugEnabled()) {
+			// FIXME: not java 1.4.2
+			//log.debug("MEMBER_LIST="+Arrays.toString(MEMBER_LIST));
+			log.debug("MEMBER_LIST="+Arrays.asList(MEMBER_LIST));
+		}
 		
+		// TODO: refactor and cleanup
 		for(int r=0 ;r<MEMBER_LIST.length; r++){
 			if (MEMBER_LIST[r]!=null){
 				
 				int IP = (int) state.getAddressInt(MEMBER_LIST[r]);
-				
-				if(IP<IPcore && this.SenderISValid(MEMBER_LIST[r])&& !(MEMBER_LIST[r].equals(state.MyAddress))){
+
+				log.info("checking: " + MEMBER_LIST[r] +
+						"\tIP<IPCore=="+(IP<IPcore)+", this.SenderISValid(MEMBER_LIST[r])=" +
+						this.SenderISValid(MEMBER_LIST[r]));
+				boolean cond = IP<IPcore && 
+						this.SenderISValid(MEMBER_LIST[r]) && 
+						!(MEMBER_LIST[r].equals(state.MyAddress));
+				log.info("will sendOuterTreeCreate is "+cond+ " for "+MEMBER_LIST[r]);
+				if(cond){
+					log.debug("-- calling this.sendOuterTreeCreate("+MEMBER_LIST[r]+")");
 					this.sendOuterTreeCreate(MEMBER_LIST[r]);
 				}
 			}
@@ -582,10 +662,16 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 			}
      
     	catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}  
-    
+    		log.error("I/O error in sendOuterTreeCreate()", e); 
+    	} finally {
+    		if (sock!=null && !sock.isClosed())
+    			try {
+    				sock.close();
+    			} catch (IOException e) {
+    				log.error("failed to close sock ", e);
+    			}
+    	}
+
     }
 
     
@@ -620,7 +706,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
     	UnicastData uData = new UnicastData(pkt_, destaddr);
 		USigSend.q.add(uData);
 		if (sig_dump_box.getState()) outputArea.append(state.TreeCreateSequenceNumber +" send OUTER Tree-Create a " + destaddr + "\n");
-    	
+		log.info(state.TreeCreateSequenceNumber +" send OUTER Tree-Create a " + destaddr);
     }  
 
     
@@ -641,6 +727,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 	    UnicastData usp = new  UnicastData(data,dest);
 	    USigSend.q.add(usp);
 	    if (sig_dump_box.getState())  outputArea.append("send Tree-Create-Nack to "+ dest +"\n");
+	    log.info("send Tree-Create-Nack to "+ dest);
    }
     
     void retransmitTREE_CREATE_NACK(InetAddress dest, byte[] pkt_){
@@ -650,6 +737,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 	    UnicastData usp = new  UnicastData(pkt_, dest);
 	    USigSend.q.add(usp);
 	    if (sig_dump_box.getState())  outputArea.append("send Tree-Create-Nack to "+ dest + "\n");
+	    log.info("send Tree-Create-Nack to "+ dest);
    }
    
    	void sendTreeCreateAck(InetAddress dest){
@@ -669,6 +757,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 	    UnicastData usp = new  UnicastData(data,dest);
 	    USigSend.q.add(usp);
 	    if (sig_dump_box.getState())  outputArea.append((state.TreeCreateAckSequenceNumber) +" send Tree-Create-Ack to " + dest +"\n");
+	    log.info((state.TreeCreateAckSequenceNumber) +" send Tree-Create-Ack to " + dest);
    	}
    	
    	void retransmitTreeCreateAck(InetAddress dest, byte[] pkt_){
@@ -678,6 +767,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
    		UnicastData usp = new  UnicastData(pkt_, dest);
 	    USigSend.q.add(usp);
 	    if (sig_dump_box.getState())  outputArea.append("send Tree-Create-Ack to " + dest +"\n");
+	    log.info("send Tree-Create-Ack to " + dest);
    	}
    	
    	void sendTreeCreateConf(InetAddress dest, byte SN){
@@ -687,6 +777,8 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
    		UnicastData usp = new  UnicastData(data,dest);
         USigSend.q.add(usp);
         if (sig_dump_box.getState())  outputArea.append(SN + " send Tree-Create-Conf to " + dest +"\n");
+        log.info(SN + " send Tree-Create-Conf to " + dest);
+        
    	}
    	
    	void sendTreeCreateNackConf(InetAddress dest, byte SN){
@@ -696,6 +788,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 	    UnicastData usp = new  UnicastData(data,dest);
 	    USigSend.q.add(usp);
        	if (sig_dump_box.getState())  outputArea.append(SN + " send Tree-Create-Nack-Conf to " + dest +"\n");
+       	log.info(SN + " send Tree-Create-Nack-Conf to " + dest);
   	}
    
    
@@ -787,6 +880,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 		
 		if (!pkt.IPCoreAddress.equals(state.CoreAddress) && !pkt.SourceIPAddress.equals(state.ParentId)){
 			if (sig_dump_box.getState())  outputArea.append("discarded Tree-Create from " + pkt.IPCoreAddress + " different Core or Parent ID\n");
+			log.info("discarded Tree-Create from " + pkt.IPCoreAddress + " different Core or Parent ID\n");
 			return; 
 		}
 		if(!SenderISValid(pkt.SourceIPAddress)) return;
@@ -1464,13 +1558,6 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 			   if (sig_dump_box.getState())  outputArea.append(state.JoinSequenceNumber + " send Join to " + AddressArray[i] + "\n");
         }
    	}
-   
-               	
-   		
-    
-    
-    
-    
     
     public void Mesh_list_creator() throws IOException{
   	  
@@ -1498,6 +1585,23 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
          for (int t=0; t<i; t++){
            mesh_list_vector_Inet[t] = InetAddress.getByName(mesh_list_vector[t]);
    		}
+         
+        // insert myself into MEMBER_LIST
+      	// olsr infotxt does not contain a route to myself...
+        if (Operative_System.toLowerCase().equals("olsr")) {
+        	for (int j=0; j < mesh_list_vector.length; ++j) {
+        		if (mesh_list_vector_Inet[j].equals(local_address)) {
+        			MEMBER_LIST[j] = local_address;
+        			break;
+        		}
+        	}
+        }
+        
+        if (log.isInfoEnabled()) {
+        	// FIXME: not java 1.4.2
+        	//log.info("inital MEMBER_LIST="+Arrays.toString(MEMBER_LIST));
+        	log.info("inital MEMBER_LIST="+Arrays.asList(MEMBER_LIST));
+        }
    } 
     
     public InetAddress getAddresspkt(byte Address){
@@ -1554,6 +1658,9 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 	        else if (Operative_System.equals("Linux")){
 	        	new FastHelloTimerLinux(this);
 	        }
+	        else if (Operative_System.toLowerCase().equals("olsr")){
+	        	new FastHelloTimerOlsr(this);
+	        }
 	    	new TREE_CREATETimer(this);
 	    	new HelloTimer(this);
 	    	new nb_purge(this);
@@ -1562,6 +1669,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 	        rgui = new refreshGUI(this);
 	    		    	
 	    	DatagramPacket packet;
+	    	// FIXME: keep loop running when an expcetion is thrown
 	    	while(true){
 	    		SignallingElement spkt=(SignallingElement)q.remove();
 	    		packet = spkt.dpacket;
@@ -1575,8 +1683,8 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 	    		}  		
 	    	}
     	} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+    		// FIXME: log-msg sux
+			log.error("I/O error in run()", e);
 		}
     	
     }
