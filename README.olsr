@@ -1,0 +1,18 @@
+#
+# WARNING: olsr support is just an other nasty hack to OBMAP
+#
+
+You need to have olsrd version >= 0.5 . Prevois versions
+do not include the txtinfo plugin.
+
+OBMAPxP tries to connect to 127.0.0.1 tcp port 2006 to talk
+to the olsrd_txtinfo plugin. 
+olsrd_txtinfo.so.0.1 is the only version I have tested.
+
+Put something like that into your olsrd.conf:
+
+LoadPlugin "olsrd_txtinfo.so.0.1"
+{
+	        PlParam "accept" "127.0.0.1"
+}
+
