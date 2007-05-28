@@ -33,9 +33,14 @@ import java.awt.TextField;
 import java.awt.Toolkit;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
+
 
 public class CollabTool extends Frame {
-  protected static int id = 0;
+	protected static int id = 0;
+	
+	private static final Logger log =
+		Logger.getLogger(CollabTool.class);
 	
 	protected Label label1, label2, label3, label4, label5, label6, label7, label8, label9, label10, label11, label12, label13, label14, label15;
     protected TextField textField1, textField2, tree1, tree2, tree3, tree4, tree5, tree6, tree7, tree8, tree9, tree10;
@@ -300,12 +305,11 @@ public class CollabTool extends Frame {
 	
 	
 	static public void main (String args[]) throws IOException { 
-	                                                             
-   	new CollabTool( args );
-   	                                     
-  	  	
-  }
-  
+			Log4jInit.init();
+
+			new CollabTool( args );
+	}
+
 }
 
 
