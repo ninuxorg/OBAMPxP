@@ -94,6 +94,7 @@ public class CollabTool extends Frame {
 		mt1.waitForID(0);
 	} catch (InterruptedException e) {
 		e.printStackTrace();
+		log.info("Interrupted in Interfaccia()", e);
 	}
     
 	sig_dump_box = new Checkbox();
@@ -233,7 +234,7 @@ public class CollabTool extends Frame {
     	dm.startThread();
         local = 1;
     	} catch (Exception ex) {
-           		ex.printStackTrace ();
+           		log.error("Error in button1_Clicked", ex);
         }
     	
     }
@@ -249,7 +250,7 @@ public class CollabTool extends Frame {
      		}
      	}
     	} catch (Exception ex) {
-           		ex.printStackTrace ();
+    		log.error("Error in button2_Clicked", ex);
         }
     	
     }
@@ -266,7 +267,7 @@ public class CollabTool extends Frame {
      		}
      		}
     	} catch (Exception ex) {
-           		ex.printStackTrace ();
+    		log.error("Error in button3_Clicked", ex);
         }
     	
     }
@@ -281,7 +282,7 @@ public class CollabTool extends Frame {
      		}
      		}
     	} catch (Exception ex) {
-           		ex.printStackTrace ();
+    		log.error("Error in button4_Clicked", ex);
         }
     	
     }
@@ -298,7 +299,7 @@ public class CollabTool extends Frame {
      	}
      		}
     	} catch (Exception ex) {
-           		ex.printStackTrace ();
+    		log.error("Error in button4_Clicked", ex);
         }
     	
     }
