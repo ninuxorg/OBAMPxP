@@ -18,13 +18,21 @@
     
 */
 
-import java.net.*;
-import java.io.*;
-import java.awt.*;
+import java.awt.TextArea;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+
+import org.apache.log4j.Logger;
+
 import prominence.util.Queue;
-import Multicast.*;
+import Multicast.MyStatus;
 
 public class UnicastTreeDataReceiver implements Runnable {
+
+	private static final Logger log =
+		Logger.getLogger(UnicastTreeDataReceiver.class);
 	
 	protected Queue q;
 	protected Thread exec;
@@ -36,59 +44,59 @@ public class UnicastTreeDataReceiver implements Runnable {
 	protected MyStatus state;
 	protected DataManager dm;
 	protected Signalling sig;
-	
-	
-	
-	
-  public UnicastTreeDataReceiver ( int porta, InetAddress LocalAddress_, Signalling sig_ ){//String args[] ) {
-  	  		
-  	port = porta;
-  	LocalAddress = LocalAddress_;
-  	sig = sig_;	
-  	exec = new Thread (this, "UNICASTTREEDATARECEIVER");
-  	exec.start ();
-  	  
-  }	  
-  
-   	
-  public void setDataManager (DataManager dm_) {
-     	this.dm = dm_;
-     
-   	}  
-  
-  public void run () {
-  	
-  		try {
-  			DatagramSocket dsocket = new DatagramSocket(port, LocalAddress);
-        	dsocket.setReceiveBufferSize(65535);
-        	dsocket.setBroadcast(false);
-        	DatagramPacket dpacket_temp ;
-  			byte [] buffer_temp = new byte[65535] ;
-  			dpacket_temp = new DatagramPacket( buffer_temp, buffer_temp.length ) ;
-  			
-  			while(true) {
-  				        		
-                dsocket.receive( dpacket_temp ) ;
-                byte buffer[] = new byte[ dpacket_temp.getLength()] ;
-                System.arraycopy(buffer_temp,0,buffer,0,dpacket_temp.getLength());
-                DatagramPacket dpacket =  new DatagramPacket(buffer, buffer.length ) ;
-                dpacket_temp.setLength(buffer_temp.length);              
-                synchronized(sig.signalling_use){
-        			sig.update_last_recv_time(dpacket_temp.getAddress());
-        		}
-                dm.q.add(dpacket);
-                
-                Integer req = new Integer(1);
-                dm.qReq.add(req);
-                             	
-        	}
-            
-        	
-  		  
-    	} catch (IOException ex) {
-      	ex.printStackTrace ();
-    	}   
-      
-  }	
-     
+
+	public UnicastTreeDataReceiver ( int porta, InetAddress LocalAddress_,
+			Signalling sig_ ){//String args[] ) {
+
+		port = porta;
+		LocalAddress = LocalAddress_;
+		sig = sig_;	
+		exec = new Thread (this, "UNICASTTREEDATARECEIVER");
+		exec.start ();
+
+	}	  
+
+
+	public void setDataManager (DataManager dm_) {
+		this.dm = dm_;
+
+	}  
+
+	public void run () {
+
+		try {
+			DatagramSocket dsocket = new DatagramSocket(port, LocalAddress);
+			dsocket.setReceiveBufferSize(65535);
+			dsocket.setBroadcast(false);
+			DatagramPacket dpacket_temp ;
+			byte [] buffer_temp = new byte[65535] ;
+			dpacket_temp = new DatagramPacket( buffer_temp, buffer_temp.length ) ;
+
+			while(true) {
+
+				dsocket.receive( dpacket_temp ) ;
+				byte buffer[] = new byte[ dpacket_temp.getLength()] ;
+				System.arraycopy(buffer_temp,0,buffer,0,dpacket_temp.getLength());
+				DatagramPacket dpacket =  new DatagramPacket(buffer, buffer.length ) ;
+				dpacket_temp.setLength(buffer_temp.length);              
+				if (log.isDebugEnabled()) {
+					log.debug("sig="+sig);
+					log.debug("sig.signalling_use="+sig.signalling_use);
+				}
+				synchronized(sig.signalling_use){
+					sig.update_last_recv_time(dpacket_temp.getAddress());
+				}
+
+				dm.q.add(dpacket);
+
+				dm.qReq.add(new Integer(1));
+
+			}
+
+		} catch (IOException ex) {
+			log.warn("I/O error while receiving unicast data", ex);
+		}   
+
+	}	
+
 }
