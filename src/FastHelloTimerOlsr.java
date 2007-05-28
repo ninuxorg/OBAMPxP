@@ -31,6 +31,12 @@ import java.util.TimerTask;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Fast Hello Timer for OLSR txtinfo plugin.
+ * Note: plugin is expceted to be reachable on localhost:2006
+ * @author fb
+ *
+ */
 public class FastHelloTimerOlsr {
 
 	private static final Logger log = 
