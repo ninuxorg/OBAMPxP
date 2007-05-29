@@ -18,8 +18,7 @@
     
 */
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.net.InetAddress;
 import java.util.*;
 
 
@@ -42,15 +41,15 @@ public class purge_cacheID {
     
     public void handle () {
    		
-   		Enumeration e = agent.dataSource.keys(); // get all keys stored in Hashtable 
+   		Enumeration<Byte> e = agent.dataSource.keys(); // get all keys stored in Hashtable 
     	while (e.hasMoreElements()) {
-    		Object key = e.nextElement(); // nextElement returns an Object
-    		Hashtable cache = (Hashtable)agent.dataSource.get(key); // nextElement returns an Object
+    		Byte key = e.nextElement();
+    		Hashtable<Integer, Long> cache = agent.dataSource.get(key);
     		
-    		Enumeration en = cache.keys(); // get all keys stored in Hashtable 
+    		Enumeration<Integer> en = cache.keys(); // get all keys stored in Hashtable 
     		while (en.hasMoreElements()) {
     			Object id = en.nextElement(); // nextElement returns an Object
-    			Long value = (Long)cache.get(id); // nextElement returns an Object
+    			Long value = cache.get(id); // nextElement returns an Object
     			long timearrival = value.longValue();
     			
     			//long timearrival = (Long)cache.get(key).longValue(); 

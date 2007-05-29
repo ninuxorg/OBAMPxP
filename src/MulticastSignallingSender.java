@@ -58,7 +58,7 @@ public class MulticastSignallingSender implements Runnable{
 			// TODO Auto-generated method stub
 			while (true) {
 				try {
-					MulticastData msp = (MulticastData)q.remove();
+					MulticastData msp = q.remove();
 					DatagramPacket pkt = new DatagramPacket(msp.buffer,msp.buffer.length, MulticastAddress, port);
 					msocket.setTimeToLive(msp.ttl);
 					msocket.send(pkt);

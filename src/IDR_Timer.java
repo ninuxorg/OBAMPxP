@@ -126,7 +126,7 @@ public class IDR_Timer {
            		
            		break;
            	case 3://TreeCreateAck Retransmission Timer
-           		OverlayNeighbor nb = (OverlayNeighbor)agent.neighbors.get(dest);
+           		OverlayNeighbor nb = agent.neighbors.get(dest);
            		if (nb == null) break; 
            		if (CHECK_SEQ_NUM(nb.last_conf_sn, pkt_to_send[2])){
            			synchronized(agent.signalling_use){
@@ -135,7 +135,7 @@ public class IDR_Timer {
     			}
     			break;
            	case 4://TreeCreateNack Retransmission Timer
-           		OverlayNeighbor nb1 = (OverlayNeighbor)agent.neighbors.get(dest);
+           		OverlayNeighbor nb1 = agent.neighbors.get(dest);
            		if (nb1 == null) break; 
            		if (CHECK_SEQ_NUM(nb1.last_nack_conf_sn, pkt_to_send[2])){
            			synchronized(agent.signalling_use){

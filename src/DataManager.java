@@ -171,15 +171,15 @@ public class  DataManager implements Runnable{
    	
    	public void purge () {
    		
-   		Enumeration e = dataSource.keys(); // get all keys stored in Hashtable 
+   		Enumeration<Byte> e = dataSource.keys(); // get all keys stored in Hashtable 
     	while (e.hasMoreElements()) {
     		Object key = e.nextElement(); // nextElement returns an Object
-    		Hashtable cache = (Hashtable)dataSource.get(key); // nextElement returns an Object
+    		Hashtable<Integer, Long> cache = dataSource.get(key);
     		
-    		Enumeration en = cache.keys(); // get all keys stored in Hashtable 
+    		Enumeration<Integer> en = cache.keys(); // get all keys stored in Hashtable 
     		while (en.hasMoreElements()) {
     			Object id = en.nextElement(); // nextElement returns an Object
-    			Long value = (Long)cache.get(id); // nextElement returns an Object
+    			Long value = cache.get(id);
     			long timearrival = value.longValue();
     			if ((System.currentTimeMillis()-timearrival)>10000){
     				cache.remove(id);		
@@ -416,11 +416,11 @@ case 5://Channel FIVE
         
         synchronized(sig.signalling_use){
         
-	    	Enumeration en = sig.neighbors.keys(); // get all keys stored in Hashtable 
+	    	Enumeration<InetAddress> en = sig.neighbors.keys(); // get all keys stored in Hashtable 
 	    	
 	        while (en.hasMoreElements()) {
 	    		Object key = en.nextElement(); // nextElement returns an Object
-	    		OverlayNeighbor  value = (OverlayNeighbor)sig.neighbors.get(key); // nextElement returns an Object
+	    		OverlayNeighbor  value = sig.neighbors.get(key); // nextElement returns an Object
 	    		
 	    		if(enable_broadcast.getState()){
 	    		if (value.istree == true && value.distance>1){
@@ -469,10 +469,10 @@ case 5://Channel FIVE
     	
     	synchronized(sig.signalling_use){
     	
-    		Enumeration en = sig.neighbors.keys(); // get all keys stored in Hashtable 
+    		Enumeration<InetAddress> en = sig.neighbors.keys(); // get all keys stored in Hashtable 
 	    	while (en.hasMoreElements()) {
-	            Object key = en.nextElement(); // nextElement returns an Object
-	            OverlayNeighbor  value = (OverlayNeighbor)sig.neighbors.get(key); // nextElement returns an Object
+	            Object key = en.nextElement();
+	            OverlayNeighbor  value = sig.neighbors.get(key);
 	            
 	            if(enable_broadcast.getState()){ 
 	            
@@ -557,8 +557,8 @@ case 5://Channel FIVE
         while(true){
 			
         	qReq.remove();
-        	if (!q.isEmpty()) receiveData((DatagramPacket)q.remove());         	
-        	if (!qApp.isEmpty()) sendData((DatagramPacket)qApp.remove());
+        	if (!q.isEmpty()) receiveData(q.remove());         	
+        	if (!qApp.isEmpty()) sendData(qApp.remove());
         	
         	
 			//if (q.isEmpty() && qApp.isEmpty()) {

@@ -64,10 +64,10 @@ public class HelloTimer {
     	            				InetAddress addressIP = InetAddress.getByName(agent.JoinedList[p].IPaddress);
     	            				if (agent.SenderISValid(addressIP)){
     	            				if(!(addressIP.equals(agent.state.MyAddress))){
-    	            				OverlayNeighbor nb = (OverlayNeighbor)agent.neighbors.get(addressIP);
+    	            				OverlayNeighbor nb = agent.neighbors.get(addressIP);
     	            				if (nb==null) {
         	                        	agent.nb_insert(addressIP, agent.state.CoreAddress);
-        	                        	nb = (OverlayNeighbor)agent.neighbors.get(addressIP);
+        	                        	nb = agent.neighbors.get(addressIP);
         	                        } 
     	            				nb.CoreAddress = agent.state.CoreAddress;
         	                        nb.distance=TTL;

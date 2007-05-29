@@ -209,10 +209,10 @@ public class Signalling implements Runnable{
     public void SetNeighborMinDistance(){
         
         state.NeighborMinDistance = 100;
-        Enumeration e = neighbors.keys(); // get all keys stored in Hashtable 
+        Enumeration<InetAddress> e = neighbors.keys(); // get all keys stored in Hashtable 
     	while (e.hasMoreElements()) {
             Object key = e.nextElement(); // nextElement returns an Object
-            OverlayNeighbor  nb = (OverlayNeighbor)neighbors.get(key); // nextElement returns an Object
+            OverlayNeighbor  nb = neighbors.get(key); // nextElement returns an Object
             if(nb.distance>0){
                 if(state.NeighborMinDistance > nb.distance){
                     state.NeighborMinDistance = nb.distance;
@@ -370,14 +370,14 @@ public boolean node_map_lookup(int id_, byte[] pkt_) {
    	
    	public void update_last_recv_time(InetAddress ip) {
    		
-   		OverlayNeighbor nb = (OverlayNeighbor)neighbors.get(ip);
+   		OverlayNeighbor nb = neighbors.get(ip);
    		if (nb==null) return;
 		nb.last_pkt_recv_time = System.currentTimeMillis();
         
    	}
 
    	public void update_last_send_time(InetAddress ip) {
-   		OverlayNeighbor nb = (OverlayNeighbor)neighbors.get(ip);
+   		OverlayNeighbor nb = neighbors.get(ip);
    		if (nb==null) return;
 		nb.last_pkt_sent_time = System.currentTimeMillis();
 
@@ -414,12 +414,12 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
    	
     boolean Is_Nearest(InetAddress ip){
             
-        OverlayNeighbor nb = (OverlayNeighbor)neighbors.get(ip);
+        OverlayNeighbor nb = neighbors.get(ip);
         double dist = 10000;
-        Enumeration e = neighbors.keys(); // get all keys stored in Hashtable 
+        Enumeration<InetAddress> e = neighbors.keys(); // get all keys stored in Hashtable 
         while (e.hasMoreElements()) {
             Object key = e.nextElement(); // nextElement returns an Object
-            OverlayNeighbor  value = (OverlayNeighbor)neighbors.get(key);
+            OverlayNeighbor  value = neighbors.get(key);
             if (1.0*value.distance+1e-3*value.IP<dist){
             	dist=1.0*value.distance+1e-3*value.IP;
             }
@@ -433,7 +433,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
         
     int Get_Dist(InetAddress ip){
     	        
-        OverlayNeighbor nb = (OverlayNeighbor)neighbors.get(ip);
+        OverlayNeighbor nb = neighbors.get(ip);
         if(nb.distance!=0){
             return nb.distance;
         }
@@ -444,10 +444,10 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
     	
     	byte[] pktNodeMap = new byte[14];
     	node_map_insert(state.getAddressString(), pktNodeMap);
-    	Enumeration e = neighbors.keys(); // get all keys stored in Hashtable 
+    	Enumeration<InetAddress> e = neighbors.keys(); // get all keys stored in Hashtable 
         while (e.hasMoreElements()) {
         	Object key = e.nextElement(); // nextElement returns an Object    		
-            OverlayNeighbor  value = (OverlayNeighbor)neighbors.get(key); // nextElement returns an Object
+            OverlayNeighbor  value = neighbors.get(key); // nextElement returns an Object
             if ((Is_Nearest(value.IPAddress) || value.distance==1) && value.CoreAddress.equals(state.CoreAddress)) node_map_insert(value.IPAddress.toString().substring(1, value.IPAddress.toString().length()), pktNodeMap); 
         }
  
@@ -460,10 +460,10 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
             TCSN = 1;
         state.TreeCreateSequenceNumber = (byte)TCSN;
     	
-    	Enumeration en = neighbors.keys();
+    	Enumeration<InetAddress> en = neighbors.keys();
         while (en.hasMoreElements()) {
         	Object key = en.nextElement(); // nextElement returns an Object    		
-            OverlayNeighbor  value = (OverlayNeighbor)neighbors.get(key); // nextElement returns an Object
+            OverlayNeighbor  value = neighbors.get(key); // nextElement returns an Object
             byte delay;
             if(check.getState()){  
             if (value.distance>1){
@@ -789,7 +789,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
    
    
    	public void SET_TREE_LINK(InetAddress key){
-            OverlayNeighbor value =  ( OverlayNeighbor )neighbors.get(key);
+            OverlayNeighbor value =  neighbors.get(key);
             value.istree = true;
             value.last_pkt_recv_time=System.currentTimeMillis();
    		 	
@@ -799,7 +799,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
    	public void CLEAR_TREE_LINK(InetAddress key){
    		          
         if (!key.equals(state.MyAddress)){
-            OverlayNeighbor value =  ( OverlayNeighbor )neighbors.get(key);
+            OverlayNeighbor value =  neighbors.get(key);
             value.istree = false;
             return;
         }
@@ -810,7 +810,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
    		byte ind [] = id.getAddress();
         byte SourceIP = ind [3];
    		if (neighbors.containsKey(id)) {
-   			OverlayNeighbor nb = (OverlayNeighbor)neighbors.get(id);
+   			OverlayNeighbor nb = neighbors.get(id);
    			if (CoreAddress_.equals(state.CoreAddress)) {
    				nb.Texpire = System.currentTimeMillis()+(long)(1.5*Allowed_Hello_loss*HELLO_INT);
    			} else {
@@ -820,7 +820,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
    			return;
    		}
    		if (old_neighbors.containsKey(id)){
-   			OverlayNeighbor onb = (OverlayNeighbor)old_neighbors.get(id);
+   			OverlayNeighbor onb = old_neighbors.get(id);
    			onb.distance = 4;
    			onb.Texpire = System.currentTimeMillis()+(long)(1.5*Allowed_Hello_loss*HELLO_INT);
    			onb.CoreAddress=CoreAddress_;
@@ -838,7 +838,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
    	
    	public boolean SenderISValid(InetAddress address){
    		if (old_neighbors!=null) {
-			OverlayNeighbor nb_old = (OverlayNeighbor)old_neighbors.get(address);
+			OverlayNeighbor nb_old = old_neighbors.get(address);
 			if(nb_old!=null)
 				if ((System.currentTimeMillis()-nb_old.last_failure_time)<1.5*Allowed_Alive_Hello_loss*Alive_Hello_intervall) return false;
         }
@@ -881,11 +881,11 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 		}
 		if(!SenderISValid(pkt.SourceIPAddress)) return;
 				
-		OverlayNeighbor nb = (OverlayNeighbor)neighbors.get(pkt.SourceIPAddress);
+		OverlayNeighbor nb = neighbors.get(pkt.SourceIPAddress);
 		
 		if (nb==null){
 			nb_insert(pkt.SourceIPAddress, pkt.IPCoreAddress);
-			nb = (OverlayNeighbor)neighbors.get(pkt.SourceIPAddress);
+			nb = neighbors.get(pkt.SourceIPAddress);
 			//nb.IP=pkt.SourceIP;
 			if (pkt.IPCoreAddress.equals(state.CoreAddress)) nb.Texpire=System.currentTimeMillis()+100;
 			
@@ -949,18 +949,18 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
     		pktNodeMap[element] = pktdata[element];
 		}
     	node_map_insert(state.getAddressString(), pktNodeMap);
-    	Enumeration e = neighbors.keys(); // get all keys stored in Hashtable 
+    	Enumeration<InetAddress> e = neighbors.keys(); // get all keys stored in Hashtable 
         while (e.hasMoreElements()) {
-        	Object key = e.nextElement(); // nextElement returns an Object    		
-            OverlayNeighbor  value = (OverlayNeighbor)neighbors.get(key); // nextElement returns an Object
+        	Object key = e.nextElement();
+            OverlayNeighbor  value = neighbors.get(key); // nextElement returns an Object
             if ((Is_Nearest(value.IPAddress) || value.distance == 1) && value.CoreAddress.equals(state.CoreAddress)) node_map_insert(value.IPAddress.toString().substring(1, value.IPAddress.toString().length()), pktNodeMap); 
         }
  
     	boolean multicast_done = false;
-    	Enumeration en = neighbors.keys(); 
+    	Enumeration<InetAddress> en = neighbors.keys(); 
         while (en.hasMoreElements()) {		
-        	Object key = en.nextElement(); // nextElement returns an Object
-        	OverlayNeighbor  value = (OverlayNeighbor)neighbors.get(key); // nextElement returns an Object
+        	Object key = en.nextElement(); 
+        	OverlayNeighbor  value = neighbors.get(key); // nextElement returns an Object
         	if ((!node_map_lookup(value.IPAddress.toString().substring(1, value.IPAddress.toString().length()), pkt.getData()))) {
         		byte delay;
         		if(check.getState()){ 
@@ -1019,10 +1019,10 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
     	pktTreeCreate pkt = new pktTreeCreate(state.MyAddress);
     	pkt.SetpktTreeCreate(pkt_, this);
         
-        OverlayNeighbor  value = (OverlayNeighbor)neighbors.get(pkt.SourceIPAddress); // nextElement returns an Object
+        OverlayNeighbor  value = neighbors.get(pkt.SourceIPAddress); 
         if (value==null){
 			nb_insert(pkt.SourceIPAddress, pkt.IPCoreAddress);
-			value = (OverlayNeighbor)neighbors.get(pkt.SourceIPAddress); // nextElement returns an Object
+			value = neighbors.get(pkt.SourceIPAddress);
 			//value.IP=pkt.SourceIP;
 			if (pkt.IPCoreAddress.equals(state.CoreAddress))value.Texpire=System.currentTimeMillis()+100;
 			//this.printHashTable();
@@ -1122,7 +1122,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
     	pktTreeCreateNack pkt = new pktTreeCreateNack(state.MyAddress);
         pkt.SetpktTreeCreateNack(is, this);
         if(!SenderISValid(pkt.SourceIPAddress)) return;
-        OverlayNeighbor nb = (OverlayNeighbor)neighbors.get(pkt.SourceIPAddress);
+        OverlayNeighbor nb = neighbors.get(pkt.SourceIPAddress);
         if (nb==null) {
         	sendTreeCreateNackConf(pkt.SourceIPAddress, pkt.SequenceNumber);
         	
@@ -1149,10 +1149,10 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
         pktTreeCreateAck pkt = new pktTreeCreateAck(state.MyAddress);
         pkt.SetpktTreeCreateAck(is, this);
         if(!SenderISValid(pkt.SourceIPAddress)) return;
-        OverlayNeighbor nb = (OverlayNeighbor)neighbors.get(pkt.SourceIPAddress);
+        OverlayNeighbor nb = neighbors.get(pkt.SourceIPAddress);
         if (nb==null){
 			nb_insert(pkt.SourceIPAddress, pkt.IPCoreAddress);
-			nb = (OverlayNeighbor)neighbors.get(pkt.SourceIPAddress);
+			nb = neighbors.get(pkt.SourceIPAddress);
 			//nb.IP=pkt.SourceIP;
 			if (pkt.IPCoreAddress.equals(state.CoreAddress)) nb.Texpire=System.currentTimeMillis()+100;
 		}
@@ -1175,10 +1175,10 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 		pktTreeCreateConf pkt = new pktTreeCreateConf(state.MyAddress);
         pkt.SetpktTreeCreateConf(is, this);
         if(!SenderISValid(pkt.SourceIPAddress)) return;
-        OverlayNeighbor nb = (OverlayNeighbor)neighbors.get(pkt.SourceIPAddress);
+        OverlayNeighbor nb = neighbors.get(pkt.SourceIPAddress);
         if (nb==null){
 			nb_insert(pkt.SourceIPAddress, pkt.IPCoreAddress);
-			nb = (OverlayNeighbor)neighbors.get(pkt.SourceIPAddress);
+			nb = neighbors.get(pkt.SourceIPAddress);
 			//nb.IP=pkt.SourceIP;
 			if (pkt.IPCoreAddress.equals(state.CoreAddress)) nb.Texpire=System.currentTimeMillis()+100;
 			
@@ -1226,10 +1226,10 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
     	pktTreeCreateNackConf pkt = new pktTreeCreateNackConf(state.MyAddress);
         pkt.SetpktTreeCreateNackConf(is, this);
         if(!SenderISValid(pkt.SourceIPAddress)) return;
-        OverlayNeighbor nb = (OverlayNeighbor)neighbors.get(pkt.SourceIPAddress);
+        OverlayNeighbor nb = neighbors.get(pkt.SourceIPAddress);
         if (nb==null){
 			nb_insert(pkt.SourceIPAddress, pkt.IPCoreAddress);
-			nb = (OverlayNeighbor)neighbors.get(pkt.SourceIPAddress);
+			nb = neighbors.get(pkt.SourceIPAddress);
 			//nb.IP=pkt.SourceIP;
 			if (pkt.IPCoreAddress.equals(state.CoreAddress)) nb.Texpire=System.currentTimeMillis()+100;
 		}
@@ -1261,10 +1261,10 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
         pktHelloConf pkt = new pktHelloConf(state.MyAddress);
         pkt.SetpktHelloConf(is, this);
         if(!SenderISValid(pkt.SourceIPAddress)) return;
-        OverlayNeighbor nb = (OverlayNeighbor)neighbors.get(pkt.SourceIPAddress);
+        OverlayNeighbor nb = neighbors.get(pkt.SourceIPAddress);
         if (nb==null) {
         	nb_insert(pkt.SourceIPAddress, pkt.IPCoreAddress);
-        	nb = (OverlayNeighbor)neighbors.get(pkt.SourceIPAddress);
+        	nb = neighbors.get(pkt.SourceIPAddress);
         	//nb.IP=pkt.SourceIP;
         }
         
@@ -1339,10 +1339,10 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 
     void CLEAR_NUMBER_TREE_CREATE(){
         
-        Enumeration e = neighbors.keys(); // get all keys stored in Hashtable 
+        Enumeration<InetAddress> e = neighbors.keys(); // get all keys stored in Hashtable 
     	while (e.hasMoreElements()) {
             Object key = e.nextElement(); // nextElement returns an Object    		
-            OverlayNeighbor  value = (OverlayNeighbor)neighbors.get(key); // nextElement returns an Object
+            OverlayNeighbor  value = neighbors.get(key); // nextElement returns an Object
             value.ResetNumberTCS();
     	}
         return;
@@ -1357,14 +1357,14 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 	    if (sig_dump_box.getState())  outputArea.append("received Virtual-Fast-Hello from " + address + "\n"); 
 	    if (!neighbors.containsKey(address) && !address.equals(state.MyAddress)){
 	        nb_insert(address, state.CoreAddress);
-	        OverlayNeighbor overlay_neighbor = (OverlayNeighbor)neighbors.get(address);
+	        OverlayNeighbor overlay_neighbor = neighbors.get(address);
 	        //overlay_neighbor.IP = pkt.SourceIP;
 	        overlay_neighbor.Texpire = (System.currentTimeMillis()+(long)(1.5*Allowed_Fast_Hello_loss*fast_HELLO_INT));
 	        overlay_neighbor.distance = 1;
 	        //fastHelloActive=true;           
 	        return;
 	    }else if(neighbors.containsKey(address)){
-	    	OverlayNeighbor nb = (OverlayNeighbor)neighbors.get(address);
+	    	OverlayNeighbor nb = neighbors.get(address);
 	    	    nb.CoreAddress=state.CoreAddress;
 	            nb.distance=1;
 	            //fastHelloActive=true;
@@ -1428,10 +1428,10 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
    	node_map_insert_Join(state.getAddressString(), pktNodeMapJoinPacket);
    	
 	
-   	Enumeration e = neighbors.keys(); // get all keys stored in Hashtable 
+   	Enumeration<InetAddress> e = neighbors.keys(); // get all keys stored in Hashtable 
        while (e.hasMoreElements()) {
        	Object key = e.nextElement(); // nextElement returns an Object    		
-           OverlayNeighbor  value = (OverlayNeighbor)neighbors.get(key); // nextElement returns an Object
+           OverlayNeighbor  value = neighbors.get(key); // nextElement returns an Object
         if(check.getState()){   
         if((value.istree || value.distance==1) && SenderISValid(value.IPAddress)){
         	if (!node_map_lookup_Join(value.IPAddress.toString().substring(1, value.IPAddress.toString().length()), pktNodeMapJoinPacket)){
@@ -1503,11 +1503,11 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 			JSN = 1;
 		state.JoinSequenceNumber = (byte)JSN;
 		
-        Enumeration enu = neighbors.keys(); // get all keys stored in Hashtable 
+        Enumeration<InetAddress> enu = neighbors.keys(); // get all keys stored in Hashtable 
 	    while (enu.hasMoreElements()) {
 	    	
 	            Object keyu = enu.nextElement(); // nextElement returns an Object
-	            OverlayNeighbor  valueu = (OverlayNeighbor)neighbors.get(keyu);
+	            OverlayNeighbor  valueu = neighbors.get(keyu);
 	            if(check.getState()){
 	            if((valueu.istree || valueu.distance==1) && SenderISValid(valueu.IPAddress)){
 	            	
@@ -1665,11 +1665,11 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 	    	DatagramPacket packet;
 	    	// FIXME: keep loop running when an expcetion is thrown
 	    	while(true){
-	    		SignallingElement spkt=(SignallingElement)q.remove();
+	    		SignallingElement spkt=q.remove();
 	    		packet = spkt.dpacket;
 	    		synchronized(signalling_use){
 	    			if (old_neighbors!=null) {
-	    				OverlayNeighbor nb_old = (OverlayNeighbor)old_neighbors.get(spkt.src);
+	    				OverlayNeighbor nb_old = old_neighbors.get(spkt.src);
 	    				if(nb_old!=null) {
 	    					if((System.currentTimeMillis()-nb_old.last_failure_time)>1.5*Allowed_Alive_Hello_loss*Alive_Hello_intervall) receive(packet); 
 	    				} else receive(packet);	

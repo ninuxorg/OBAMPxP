@@ -18,6 +18,7 @@
     
 */
 
+import java.net.InetAddress;
 import java.util.Enumeration;
 import java.util.Timer;
 
@@ -41,10 +42,10 @@ public class refreshGUI {
     	agent.label6.setText("Parent Id: "+agent.state.ParentId.getHostAddress()+"  NACKING "+agent.state.NACKStatus);
     	agent.outputArea2.setText("");
     	agent.outputArea2.append("IP address:           Distance:       Tree Link:      LifeTime:       AliveTime:" + "\n");
-        Enumeration e = agent.neighbors.keys(); // get all keys stored in Hashtable 
+        Enumeration<InetAddress> e = agent.neighbors.keys(); // get all keys stored in Hashtable 
     	while (e.hasMoreElements()) {
     		Object key = e.nextElement(); // nextElement returns an Object
-            OverlayNeighbor  value = (OverlayNeighbor)agent.neighbors.get(key); // nextElement returns an Object
+            OverlayNeighbor  value = agent.neighbors.get(key); // nextElement returns an Object
             int tree = 0;
             if (value.istree) tree = 1;
         

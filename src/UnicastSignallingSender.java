@@ -58,7 +58,7 @@ public class UnicastSignallingSender implements Runnable{
   public void run() {
 	// TODO Auto-generated method stub
 	while (true) {
-		UnicastData utd = (UnicastData)q.remove();
+		UnicastData utd = q.remove();
 		DatagramPacket pkt = new DatagramPacket(utd.pbuffer,utd.pbuffer.length, utd.pdest, remote_port);
 		synchronized(sig.signalling_use){
 			sig.update_last_send_time(utd.pdest);

@@ -44,10 +44,10 @@ public class nb_purge {
         synchronized (agent.signalling_use) {
     	long now = System.currentTimeMillis();
         if (agent.neighbors!=null){
-            Enumeration e = agent.neighbors.keys(); // get all keys stored in Hashtable 
+            Enumeration<InetAddress> e = agent.neighbors.keys(); // get all keys stored in Hashtable 
             while (e.hasMoreElements()) {
             	Object key = e.nextElement(); // nextElement returns an Object
-            	OverlayNeighbor  nb = (OverlayNeighbor)agent.neighbors.get(key); // nextElement returns an Object
+            	OverlayNeighbor  nb = agent.neighbors.get(key); // nextElement returns an Object
     			if((nb.istree && (System.currentTimeMillis()-nb.last_pkt_recv_time)>1.5*agent.Allowed_Alive_Hello_loss*agent.Alive_Hello_intervall)){
 		    	
     			/****FAILURE PROCEDURE****/
@@ -263,10 +263,10 @@ public class nb_purge {
         }
     
         if (agent.neighbors!=null){
-            Enumeration e = agent.neighbors.keys(); // get all keys stored in Hashtable 
+            Enumeration<InetAddress> e = agent.neighbors.keys(); // get all keys stored in Hashtable 
             while (e.hasMoreElements()) {
     		Object key = e.nextElement(); // nextElement returns an Object
-    		OverlayNeighbor  nb = (OverlayNeighbor)agent.neighbors.get(key); // nextElement returns an Object
+    		OverlayNeighbor  nb = agent.neighbors.get(key); // nextElement returns an Object
      		if (!agent.state.ParentId.equals(agent.nullIP)) {
 			    	boolean acking_flag = true;
 			    	if (agent.forwardingTreeCreate!=null) acking_flag=agent.forwardingTreeCreate.SourceIPAddress.equals(nb.IPAddress);
