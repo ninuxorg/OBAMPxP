@@ -52,7 +52,6 @@ public class MulticastTreeDataSender implements Runnable{
 	};
 	
 	public void run() {
-		// TODO Auto-generated method stub
 		while (true) {
 			UnicastData utd = q.remove();	// UnicastData format used also in case of multicast 
 			DatagramPacket pkt = new DatagramPacket(utd.pbuffer,utd.pbuffer.length, utd.pdest, multicast_tree_data_port);

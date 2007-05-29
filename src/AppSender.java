@@ -57,7 +57,6 @@ public class AppSender implements Runnable{
 	}
 	
 	public void run() {
-		// TODO Auto-generated method stub
 		while (true) {
 			DatagramPacket pkt = (DatagramPacket)q.remove();
 			if (log.isDebugEnabled())

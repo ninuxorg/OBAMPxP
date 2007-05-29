@@ -27,7 +27,7 @@ import prominence.util.Queue;
 
 public class MulticastTreeDataReceiver implements Runnable {
 	
-	protected Queue q; // TODO: add generic
+	protected Queue q; // TODO: add generic or remove if unused
 	protected Thread exec;
 	protected MulticastSocket msocket;
 	protected DatagramPacket dpack;

@@ -37,7 +37,7 @@ public class  DataManager implements Runnable{
 	protected volatile Signalling sig;
 	protected InetAddress myIP;
 	protected TextArea outputArea;
-	protected Hashtable nb; // TODO: add generic
+	protected Hashtable nb; // TODO: add generic or remove if unused
 	protected Hashtable<Byte, Hashtable<Integer, Long>> dataSource;
 	protected Hashtable<Integer, Long> cacheID;
 	protected byte myID;
@@ -163,7 +163,7 @@ public class  DataManager implements Runnable{
         
        
    	
-   	public void setHash (Hashtable nb_) { // TODO: add generic
+   	public void setHash (Hashtable nb_) { // TODO: add generic or remove if unused
      	this.nb = nb_;
      
    	}

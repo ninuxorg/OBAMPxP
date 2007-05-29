@@ -54,7 +54,6 @@ public class UnicastTreeDataSender implements Runnable{
 	};
 	
 	public void run() {
-		// TODO Auto-generated method stub
 		while (true) {
 			UnicastData utd = q.remove();
 			DatagramPacket pkt = new DatagramPacket(utd.pbuffer,utd.pbuffer.length, utd.pdest, unicast_tree_data_port);
