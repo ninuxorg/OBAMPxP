@@ -18,8 +18,10 @@
     
 */
 
-import java.net.InetAddress;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class purge_cacheID {

@@ -43,7 +43,7 @@ public class AppReceiver implements Runnable {
 	private static final Logger log = 
 		Logger.getLogger(AppReceiver.class);
 	
-	protected Queue q;
+	protected Queue q; // TODO: add generic
 	protected Thread exec;
 	protected DatagramSocket dsocketR;
 	protected DatagramPacket dpacketR;

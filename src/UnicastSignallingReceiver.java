@@ -30,7 +30,7 @@ import prominence.util.Queue;
 
 public class UnicastSignallingReceiver implements Runnable {
 	
-	protected Queue q;
+	protected Queue q; // TODO: add generic
 	protected Thread exec;
 	protected DatagramSocket dsocket;
 	public int port;

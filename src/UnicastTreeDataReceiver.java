@@ -34,7 +34,7 @@ public class UnicastTreeDataReceiver implements Runnable {
 	private static final Logger log =
 		Logger.getLogger(UnicastTreeDataReceiver.class);
 	
-	protected Queue q;
+	protected Queue q; // TODO: add generics
 	protected Thread exec;
 	protected DatagramSocket dsocket;
 	protected DatagramPacket dpack;

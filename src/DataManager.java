@@ -37,7 +37,7 @@ public class  DataManager implements Runnable{
 	protected volatile Signalling sig;
 	protected InetAddress myIP;
 	protected TextArea outputArea;
-	protected Hashtable nb;
+	protected Hashtable nb; // TODO: add generic
 	protected Hashtable<Byte, Hashtable<Integer, Long>> dataSource;
 	protected Hashtable<Integer, Long> cacheID;
 	protected byte myID;
@@ -83,7 +83,7 @@ public class  DataManager implements Runnable{
     private int data_counter_Channel_Four;
     private int data_counter_Channel_Five;
 	private byte[] rcvPKT;	
-	private byte[] previousHOP;
+	// private byte[] previousHOP; // this seems to be unused
 	private boolean ret;
 	private CollabTool collab;
 	
@@ -128,7 +128,7 @@ public class  DataManager implements Runnable{
      	                                    
      	ind = myIP.getAddress();
         mIP = ind [3];
-        previousHOP = myIP.getAddress();
+        // previousHOP = myIP.getAddress(); // value never read (fb)
         data_counter_Channel_One=0;
         data_counter_Channel_Two=0;
         data_counter_Channel_Three=0;
@@ -163,7 +163,7 @@ public class  DataManager implements Runnable{
         
        
    	
-   	public void setHash (Hashtable nb_) {
+   	public void setHash (Hashtable nb_) { // TODO: add generic
      	this.nb = nb_;
      
    	}
@@ -205,7 +205,7 @@ public class  DataManager implements Runnable{
 		}
    		int ref_byte,ref_bit;
         byte insert_char=0x01;
-        ref_byte=(int)id/8;
+        ref_byte=id/8;
         ref_bit=id % 8;
         insert_char=(byte)(insert_char<<ref_bit);
         pkt_[ref_byte+2]=(byte)(pkt_[ref_byte+2]|(insert_char));
@@ -227,7 +227,7 @@ public class  DataManager implements Runnable{
 		}
         int ref_byte,ref_bit;
         byte insert_char=0x01;
-        ref_byte=(int)id/8;
+        ref_byte=id/8;
         ref_bit=(id) % (8);
         insert_char=(byte)(insert_char<<ref_bit);
         if(((pkt_[ref_byte+2]) & (insert_char))==0x00) {
