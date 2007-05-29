@@ -23,49 +23,56 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 
+import org.apache.log4j.Logger;
+
 import prominence.util.Queue;
+
 
 public class MulticastSignallingSender implements Runnable{
 	
-		protected Thread exec;
-		protected MulticastSocket msocket;
-		protected InetAddress LocalAddress;
-		protected int port;
-		protected InetAddress MulticastAddress;
-		public Queue<MulticastData> q;
-		
-		public MulticastSignallingSender (InetAddress LocalAddress_, int port_, InetAddress MulticastAddress_){
-			  	
-			LocalAddress = LocalAddress_;
-			port = port_;
-	  		MulticastAddress = MulticastAddress_;
-	  		q = new Queue<MulticastData>();
-	  		try {
-				msocket = new MulticastSocket();
-				msocket.setInterface(LocalAddress);
-				msocket.setLoopbackMode(true);
+	private static final Logger log = 
+		Logger.getLogger(MulticastSignallingSender.class);
+	
+	protected Thread exec;
+	protected MulticastSocket msocket;
+	protected InetAddress LocalAddress;
+	protected int port;
+	protected InetAddress MulticastAddress;
+	public Queue<MulticastData> q;
+
+	public MulticastSignallingSender (InetAddress LocalAddress_, int port_, InetAddress MulticastAddress_){
+
+		LocalAddress = LocalAddress_;
+		port = port_;
+		MulticastAddress = MulticastAddress_;
+		q = new Queue<MulticastData>();
+		try {
+			msocket = new MulticastSocket();
+			msocket.setInterface(LocalAddress);
+			msocket.setLoopbackMode(true);
+		} catch (IOException e) {
+			// FIXME: bad exception handling
+			log.warn("I/O error while setting up multicasting socket",
+					e);
+		}
+
+		exec = new Thread(this, "MULTICASTSIGNALLINGSENDER");
+		exec.start ();
+
+	}	  
+
+	public void run() {
+		while (true) {
+			try {
+				MulticastData msp = q.remove();
+				DatagramPacket pkt = new DatagramPacket(
+						msp.buffer,msp.buffer.length, MulticastAddress, port);
+				msocket.setTimeToLive(msp.ttl);
+				msocket.send(pkt);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	  		  		
-	  		exec = new Thread(this, "MULTICASTSIGNALLINGSENDER");
-	        exec.start ();
-	  	  
-		}	  
-	  	  	
-		public void run() {
-			// TODO Auto-generated method stub
-			while (true) {
-				try {
-					MulticastData msp = q.remove();
-					DatagramPacket pkt = new DatagramPacket(msp.buffer,msp.buffer.length, MulticastAddress, port);
-					msocket.setTimeToLive(msp.ttl);
-					msocket.send(pkt);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
 		}
+	}
 }
