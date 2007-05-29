@@ -46,7 +46,7 @@ import Multicast.OverlayNeighbor;
 public class Signalling implements Runnable{
 	
 	private static final Logger log =
-		Logger.getLogger(CollabTool.class);
+		Logger.getLogger(Signalling.class);
 	
 	protected Hashtable neighbors;
 	protected Hashtable old_neighbors;

@@ -34,7 +34,7 @@ import org.apache.log4j.PropertyConfigurator;
 public class Log4jInit {
 
 	private static final Logger log =
-		Logger.getLogger(CollabTool.class);
+		Logger.getLogger(Log4jInit.class);
 	public static final String LOG4J_CONFIG_FILENAME = "log4j.properties";
 	
 	private static volatile boolean initDone = false;
