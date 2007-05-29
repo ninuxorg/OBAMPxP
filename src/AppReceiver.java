@@ -27,14 +27,16 @@
  *
  * @author Remo
  */
-import java.net.*;
-import java.io.*;
-import java.awt.*;
+import java.awt.TextArea;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 import org.apache.log4j.Logger;
 
 import prominence.util.Queue;
-import Multicast.*;
+import Multicast.MyStatus;
 
 public class AppReceiver implements Runnable {
 	
