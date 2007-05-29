@@ -28,7 +28,7 @@ import prominence.util.Queue;
 public class UnicastTreeDataSender implements Runnable{
 	
 	protected Thread exec;
-	protected Queue q;
+	protected Queue<UnicastData> q;
 	
 	private DatagramSocket unicast_tree_data_socket;
 	private InetAddress LocalAddress;
@@ -37,7 +37,7 @@ public class UnicastTreeDataSender implements Runnable{
 	private Signalling sig;
 	
 	public UnicastTreeDataSender (InetAddress LocalAddress_, int local_port_, int unicast_tree_data_port_, Signalling sig_) {
-		q = new Queue();
+		q = new Queue<UnicastData>();
 		LocalAddress = LocalAddress_;
 		local_port = local_port_;
 		unicast_tree_data_port=unicast_tree_data_port_;

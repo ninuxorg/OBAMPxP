@@ -37,6 +37,12 @@ import org.apache.log4j.Logger;
 
 
 public class CollabTool extends Frame {
+	
+	/**
+	 * default serial
+	 */
+	private static final long serialVersionUID = 1L;
+
 	protected static int id = 0;
 	
 	private static final Logger log =

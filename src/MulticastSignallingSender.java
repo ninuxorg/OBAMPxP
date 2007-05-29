@@ -32,14 +32,14 @@ public class MulticastSignallingSender implements Runnable{
 		protected InetAddress LocalAddress;
 		protected int port;
 		protected InetAddress MulticastAddress;
-		public Queue q;
+		public Queue<MulticastData> q;
 		
 		public MulticastSignallingSender (InetAddress LocalAddress_, int port_, InetAddress MulticastAddress_){
 			  	
 			LocalAddress = LocalAddress_;
 			port = port_;
 	  		MulticastAddress = MulticastAddress_;
-	  		q = new Queue();
+	  		q = new Queue<MulticastData>();
 	  		try {
 				msocket = new MulticastSocket();
 				msocket.setInterface(LocalAddress);

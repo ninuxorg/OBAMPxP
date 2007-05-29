@@ -33,7 +33,7 @@ public class UnicastSignallingSender implements Runnable{
 	protected InetAddress LocalAddress;
 	protected int local_port;
 	protected int remote_port;
-	protected Queue q;     
+	protected Queue<UnicastData> q;
 	protected Signalling sig;
 
   public UnicastSignallingSender (InetAddress LocalAddress_, int local_port_, int remote_port_, Signalling sig_) throws IOException {
@@ -42,7 +42,7 @@ public class UnicastSignallingSender implements Runnable{
 	  local_port = local_port_;
 	  remote_port = remote_port_;	// destination port
 	  	sig = sig_;
-	  	q = new Queue();
+	  	q = new Queue<UnicastData>();
 	  	try {
 			dsocket = new DatagramSocket(local_port, LocalAddress);
 		} catch (IOException e) {

@@ -12,19 +12,21 @@ import java.util.Vector;
  * an empty queue until the queue is non-empty again.
  *
  * @version 1.0 1 Nov 1996
+ * @version 1.01 29 Nov 2007
  * @author Merlin Hughes
+ * @author Fabian Bieker (added generics)
  */
-public class Queue {
+public class Queue<A> {
   /**
    * A <tt>Vector</tt> of the queue elements.
    */
-  protected Vector queue;
+  protected final Vector<A> queue;
 
   /**
    * Creates a new, empty <tt>Queue</tt>.
    */
   public Queue () {
-    queue = new Vector ();
+    queue = new Vector<A> ();
   }
 
   /**
@@ -32,14 +34,14 @@ public class Queue {
    * in the queue. This call will therefore always return an object.
    * @returns The least-recently-added object from the queue
    */
-  public Object remove () {
+  public A remove () {
     synchronized (queue) {
       while (queue.isEmpty ()) {
         try {
           queue.wait ();
         } catch (InterruptedException ex) {}
       }
-      Object item = queue.firstElement ();
+      A item = queue.firstElement ();
       queue.removeElement (item);
       return item;
     }
@@ -50,7 +52,7 @@ public class Queue {
    * the queue to become non-empty.
    * @param item The object to be added
    */
-  public void add (Object item) {
+  public void add (A item) {
     synchronized (queue) {
       queue.addElement (item);
       queue.notify ();

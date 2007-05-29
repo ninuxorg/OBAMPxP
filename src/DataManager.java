@@ -38,12 +38,12 @@ public class  DataManager implements Runnable{
 	protected InetAddress myIP;
 	protected TextArea outputArea;
 	protected Hashtable nb;
-	protected Hashtable dataSource;
-	protected Hashtable cacheID;
+	protected Hashtable<Byte, Hashtable<Integer, Long>> dataSource;
+	protected Hashtable<Integer, Long> cacheID;
 	protected byte myID;
-	protected Queue q;
-	protected Queue qApp;
-	protected Queue qReq;
+	protected Queue<DatagramPacket> q;
+	protected Queue<DatagramPacket> qApp;
+	protected Queue<Integer> qReq;
 	    
     protected UnicastTreeDataSender UnicastTreeDataSender_;
     protected AppSender AppSender_1;
@@ -115,9 +115,9 @@ public class  DataManager implements Runnable{
     	multicast_data_address = InetAddress.getByName(db.get("multicast_address"));
     	myIP = InetAddress.getByName(db.get("local_address"));
     	
-    	q = new Queue();
-     	qApp = new Queue();
-     	qReq = new Queue();
+    	q = new Queue<DatagramPacket>();
+     	qApp = new Queue<DatagramPacket>();
+     	qReq = new Queue<Integer>();
      	
      	
      	dataCache_ChannelOne = new rcvPKTid[100];
@@ -135,9 +135,9 @@ public class  DataManager implements Runnable{
         data_counter_Channel_Four=0;
         data_counter_Channel_Five=0;
         
-     	dataSource = new Hashtable();
+     	dataSource = new Hashtable<Byte, Hashtable<Integer, Long>>();
      	
-     	cacheID = new Hashtable();
+     	cacheID = new Hashtable<Integer, Long>();
      	myID = 0;
      	cacheID.put(new Integer(myID), new Long(System.currentTimeMillis()));
      	dataSource.put(new Byte(mIP), cacheID);

@@ -28,13 +28,13 @@ import prominence.util.Queue;
 public class MulticastTreeDataSender implements Runnable{
 	
 	protected Thread exec;
-	protected Queue q;
+	protected Queue<UnicastData> q; // TODO: use an other generic type?
 	private MulticastSocket multicast_tree_data_socket;
 	private int multicast_tree_data_port;
 	private InetAddress LocalAddress;
 	
 	public MulticastTreeDataSender (InetAddress LocalAddress_, int multicast_tree_data_port_) {
-		q = new Queue();
+		q = new Queue<UnicastData>();
 		LocalAddress = LocalAddress_;
 		multicast_tree_data_port = multicast_tree_data_port_;
 		
@@ -54,7 +54,7 @@ public class MulticastTreeDataSender implements Runnable{
 	public void run() {
 		// TODO Auto-generated method stub
 		while (true) {
-			UnicastData utd = (UnicastData)q.remove();	// UnicastData format used also in case of multicast 
+			UnicastData utd = q.remove();	// UnicastData format used also in case of multicast 
 			DatagramPacket pkt = new DatagramPacket(utd.pbuffer,utd.pbuffer.length, utd.pdest, multicast_tree_data_port);
 			try {
 				multicast_tree_data_socket.send(pkt);

@@ -48,8 +48,8 @@ public class Signalling implements Runnable{
 	private static final Logger log =
 		Logger.getLogger(Signalling.class);
 	
-	protected Hashtable neighbors;
-	protected Hashtable old_neighbors;
+	protected Hashtable<InetAddress, OverlayNeighbor> neighbors;
+	protected Hashtable<InetAddress, OverlayNeighbor> old_neighbors;
    	protected OverlayNeighbor nb;
    	protected Stato state;
     protected Thread exec;
@@ -81,7 +81,7 @@ public class Signalling implements Runnable{
     protected InetAddress multicast_address;
     protected InetAddress local_address;
     
-    protected Queue q;
+    protected Queue<SignallingElement> q;
     private DB_Contest db;
     public boolean fastHelloActive;
     protected String signalling_use;
@@ -143,9 +143,9 @@ public class Signalling implements Runnable{
         	log.error("Failed to get " + NodeListFetcher.OBAMP_NODES_FILE, e);
         }
         
-        q = new Queue();
-        neighbors = new Hashtable();
-        old_neighbors = new Hashtable();
+        q = new Queue<SignallingElement>();
+        neighbors = new Hashtable<InetAddress, OverlayNeighbor>();
+        old_neighbors = new Hashtable<InetAddress, OverlayNeighbor>();
         
         check = check_;
         if (Operative_System.equals("Windows")){

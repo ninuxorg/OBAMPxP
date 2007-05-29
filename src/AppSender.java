@@ -32,7 +32,7 @@ public class AppSender implements Runnable{
 		Logger.getLogger(AppSender.class);
 	
 	protected Thread exec;
-	protected Queue q ;
+	protected Queue<Object> q; // TODO: use a better generic type?
 	private int appTXport ;
 	private DatagramSocket application_socket;
 	protected InetAddress LocalAddress;
@@ -43,7 +43,7 @@ public class AppSender implements Runnable{
 		LocalAddress = LocalAddress_;
 		socketPort = socketPort_;
 		appTXport = appTXport_;
-		q = new Queue();
+		q = new Queue<Object>();
 		try {
 			application_socket = new DatagramSocket(socketPort, LocalAddress);
 			application_socket.setSendBufferSize(65535);
