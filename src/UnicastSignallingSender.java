@@ -23,10 +23,15 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import org.apache.log4j.Logger;
+
 import prominence.util.Queue;
 
 
 public class UnicastSignallingSender implements Runnable{ 
+	
+	private static final Logger log =
+		Logger.getLogger(UnicastSignallingSender.class);
 	
 	protected Thread exec;
 	protected DatagramSocket dsocket;
@@ -46,8 +51,8 @@ public class UnicastSignallingSender implements Runnable{
 	  	try {
 			dsocket = new DatagramSocket(local_port, LocalAddress);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// FIXME: bad exception handling
+			log.warn("I/O error while sending UDP packet", e);
 		}
 	  	
 	  	exec = new Thread (this, "UNICASTSIGNALLINGSENDER");
@@ -65,8 +70,8 @@ public class UnicastSignallingSender implements Runnable{
 		try {
 			dsocket.send(pkt);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// FIXME: bad exception handling
+			log.warn("I/O error while sending UDP packet", e);
 		}
 	}
  }

@@ -23,9 +23,14 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import org.apache.log4j.Logger;
+
 import prominence.util.Queue;
 
 public class UnicastTreeDataSender implements Runnable{
+	
+	private static final Logger log =
+		Logger.getLogger(UnicastTreeDataSender.class);
 	
 	protected Thread exec;
 	protected Queue<UnicastData> q;
@@ -63,8 +68,8 @@ public class UnicastTreeDataSender implements Runnable{
 			try {
 				unicast_tree_data_socket.send(pkt);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// FIXME: bad exception handling
+				log.warn("I/O error while sending UDP packet", e);
 			}
 		}
 		

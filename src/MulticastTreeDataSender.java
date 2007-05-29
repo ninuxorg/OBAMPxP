@@ -23,15 +23,22 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 
+import org.apache.log4j.Logger;
+
 import prominence.util.Queue;
 
 public class MulticastTreeDataSender implements Runnable{
 	
+
+	private static final Logger log = 
+		Logger.getLogger(MulticastTreeDataSender.class);
+	
 	protected Thread exec;
-	protected Queue<UnicastData> q; // TODO: use an other generic type?
+	protected Queue<UnicastData> q;
 	private MulticastSocket multicast_tree_data_socket;
 	private int multicast_tree_data_port;
 	private InetAddress LocalAddress;
+	
 	
 	public MulticastTreeDataSender (InetAddress LocalAddress_, int multicast_tree_data_port_) {
 		q = new Queue<UnicastData>();
@@ -58,8 +65,7 @@ public class MulticastTreeDataSender implements Runnable{
 			try {
 				multicast_tree_data_socket.send(pkt);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.warn("I/O error while sending UDP packet");
 			}
 		}
 		
