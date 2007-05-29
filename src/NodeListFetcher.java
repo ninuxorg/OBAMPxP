@@ -41,7 +41,7 @@ public class NodeListFetcher {
 	/**
 	 * Fieldname of the config param that holds a url to a obamp node
 	 * list.
-	 * @see NodeListFetcher.getUrl(DB_Contest db)
+	 * @see NodeListFetcher#getUrl(DB_Contest db)
 	 */
 	public static final String OBAMP_NODES_URL = "Obamp_Nodes_Url";
 
