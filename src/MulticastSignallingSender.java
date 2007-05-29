@@ -70,8 +70,9 @@ public class MulticastSignallingSender implements Runnable{
 				msocket.setTimeToLive(msp.ttl);
 				msocket.send(pkt);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// FIXME: bad exception handling
+				log.warn("I/O error while sending on a multicasting " +
+						"socket", e);
 			}
 		}
 	}
