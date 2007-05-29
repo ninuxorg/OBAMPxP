@@ -595,10 +595,8 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 		        	// TODO: cleanup this nasty parsing hack
 		        	log.debug("sendOuterTreeCreate() - olsr branch");
 		        	if (log.isInfoEnabled()) {
-		        		// FIXME: not java 1.4.2
-		        		//log.info("mesh_list_vector="+Arrays.toString(mesh_list_vector));
 		        		log.info("mesh_list_vector=" + 
-		        				Arrays.asList(mesh_list_vector));
+		        				Arrays.toString(mesh_list_vector));
 		        	}
 		        	while ((str_route_print1 = route_printb1.readLine()) !=null){
 		        		//log.debug("sendOuterTreeCreate() - olsr branch" +
@@ -631,9 +629,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
     	int IPcore = (int) state.getAddressInt(state.CoreAddress);
     	log.info("state.CoreAddress="+state.CoreAddress);
 		if (log.isDebugEnabled()) {
-			// FIXME: not java 1.4.2
-			//log.debug("MEMBER_LIST="+Arrays.toString(MEMBER_LIST));
-			log.debug("MEMBER_LIST="+Arrays.asList(MEMBER_LIST));
+			log.debug("MEMBER_LIST="+Arrays.toString(MEMBER_LIST));
 		}
 		
 		// TODO: refactor and cleanup
@@ -1598,9 +1594,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
         }
         
         if (log.isInfoEnabled()) {
-        	// FIXME: not java 1.4.2
-        	//log.info("inital MEMBER_LIST="+Arrays.toString(MEMBER_LIST));
-        	log.info("inital MEMBER_LIST="+Arrays.asList(MEMBER_LIST));
+        	log.info("inital MEMBER_LIST="+Arrays.toString(MEMBER_LIST));
         }
    } 
     

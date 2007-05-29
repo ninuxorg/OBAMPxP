@@ -25,7 +25,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-//import java.util.Arrays; // not needed atm, see below
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -101,8 +101,9 @@ public class FastHelloTimerOlsr {
 							// use ETX as metric
 							String[] tokens = str_route_print1.split("[\\t ]");
 							if (tokens.length < 3) {
-								//FIXME: not java 1.4.2
-								//log.debug("--continue tokens="+Arrays.toString(tokens));
+								log.debug("--continue, invalid tokens=" + 
+										Arrays.toString(tokens) + 
+										"length must be >= 3");
 								continue; // FIXME: is it ok to continue here?
 							}
 							String metricString = tokens[2].trim();
@@ -161,8 +162,7 @@ public class FastHelloTimerOlsr {
 	 */
 	public static BufferedReader connectToOlsrdInfo(Socket sock) 
 	throws UnknownHostException, IOException {
-		// FIXME: not java 1.4.2
-		//assert !sock.isConnected();
+		assert !sock.isConnected();
 		try {
 			sock.connect(new InetSocketAddress("localhost", 2006)); // FIXME: use config val
 		} catch (ConnectException e) {
