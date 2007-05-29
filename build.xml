@@ -13,13 +13,21 @@
     <property name="app.name"  value="OBAMPxP"/>
   	<property name="build.home" value="bin"/>
   	<property name="dist.home" value="dist"/>
-		<property name="src.home"  value="src"/>
+	<property name="src.home"  value="src"/>
+	<property name="test.build.home" value="tests/bin"/>
+	<property name="test.src.home"  value="tests/src"/>
       
     <path id="OBAMP.classpath">
         <pathelement location="bin"/>
         <pathelement location="db"/>
     	<pathelement location="lib/log4j-1.2.14.jar"/>
     </path>
+	 <path id="test.OBAMP.classpath">
+	        <pathelement location="bin"/>
+	        <pathelement location="db"/>
+	    	<pathelement location="lib/log4j-1.2.14.jar"/>
+	    	<pathelement location="lib/junit-3.8.1.jar"/>
+	    </path>
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
@@ -30,7 +38,7 @@
     <target name="clean">
         <delete dir="bin"/>
     </target>
-    <target depends="clean" name="cleanall">
+    <target depends="clean,test-clean" name="cleanall">
     		<delete dir="dist"/>
     </target>
     <target depends="build-subprojects,build-project" name="build"/>
@@ -77,6 +85,35 @@
     	<fileset dir="image"/>
   	</copy>
 
-  </target>
-    
+ 	</target>
+  
+	<!-- =================== Build-test Target ================================ -->
+	
+	<target name="test-init">
+	    <mkdir dir="${test.build.home}"/>
+        <copy includeemptydirs="false" todir="${test.build.home}">
+            <fileset dir="src" excludes="**/*.launch, **/*.java"/>
+        </copy>
+    	<copy file="log4j.properties" todir="${test.build.home}"/>
+    </target>
+	
+    <target name="test-clean">
+        <delete dir="${test.build.home}"/>
+    </target>
+	
+  	<target name="build-test" depends="test-init,build" description="Build test code">
+  		<javac debug="true" debuglevel="${debuglevel}" destdir="${test.build.home}" 
+  			source="${source}" target="${target}">
+            <src path="${test.src.home}"/>
+        <classpath refid="test.OBAMP.classpath"/>
+  		</javac>
+	</target>
+	
+	<!-- =================== Test Target ================================ -->
+	
+	<target name="test" depends="build-test" description="Run tests">
+	<!-- TODO -->
+	<echo message="not yet implemented"/>
+	</target>
+	
 </project>
