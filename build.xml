@@ -37,8 +37,10 @@
     </target>
     <target name="clean">
     	<!-- ".svn" is on defaultexcludes, want to keep them -->
-        <delete includeemptydirs="true" defaultexcludes="true">
-        	<fileset dir="${build.home}" includes="**/*"/>
+        <delete>
+        	<fileset dir="${build.home}" defaultexcludes="true">
+        		<include name="**/*"/>
+        	</fileset>
         </delete>
     </target>
     <target depends="clean,test-clean" name="cleanall">
