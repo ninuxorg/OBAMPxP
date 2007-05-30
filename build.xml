@@ -36,7 +36,10 @@
     	<copy file="log4j.properties" todir="${build.home}"/>
     </target>
     <target name="clean">
-        <delete dir="bin"/>
+    	<!-- ".svn" is on defaultexcludes, want to keep them -->
+        <delete includeemptydirs="true" defaultexcludes="true">
+        	<fileset dir="${build.home}" includes="**/*"/>
+        </delete>
     </target>
     <target depends="clean,test-clean" name="cleanall">
     		<delete dir="dist"/>
