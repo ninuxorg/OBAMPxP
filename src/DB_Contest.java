@@ -24,9 +24,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * This class deals with reading / parsing the obamp config file.
+ * 
+ * @author Claudio Loreti
+ * @author fb
+ *
+ */
+// TODO: use log4j - do not println(exception)
 public class DB_Contest{
 	
 	private int mark_file1;
@@ -68,10 +74,7 @@ public class DB_Contest{
 	public String get(String campo){
 		
 		try{
-			List lis = new ArrayList();
 			Character ch;
-			String st1 = null;
-			String st2 = null;
 			String st = null;
 			String st_char = "";
 			DataInputStream in = 
@@ -97,15 +100,21 @@ public class DB_Contest{
 				}
 			return(st);
 				
-		}catch(IOException io){System.out.println(io);}					
+		}catch(IOException io){
+			System.out.println(io);
+		}					
 		
 		return("error");
 	};
 	
 
-	public String write(String campo, String value){return("ciao");};//scrive il valore nel campo rispettivo 
+	public String write(String campo, String value){
+		return("ciao");//scrive il valore nel campo rispettivo 
+	}
 	
-	public boolean put(String new_campo){return(true);};//inserisce nuovo campo
+	public boolean put(String new_campo){
+		return(true);//inserisce nuovo campo
+	};
 	
 	//inserisce nuovo campo e il rispettivo valore
 	//scrive il valore nel campo rispettivo 
@@ -114,7 +123,6 @@ public class DB_Contest{
 			
 			Character ch;
 			String st1 = "";
-			String st2 = "";
 			String st = "";
 			String st_char = "";
 			DataInputStream in = 
@@ -128,22 +136,22 @@ public class DB_Contest{
 					st_char = ch.toString();
 					st1 = st1 + st_char;
 					while(!(st_char.equals("<"))){
-						st_char = ch.toString((char)in.readByte());
+						st_char = Character.toString((char)in.readByte()); // TODO: breaks encoding
 						aggiorna_mark_file();
 						st1 = st1 + st_char;
 					}
 					st = read_field(in);
 					if(st.equals(campo)){
 						st1 = st1 + campo + ">";
-						st_char = ch.toString((char)in.readByte());
+						st_char = Character.toString((char)in.readByte()); // TODO: breaks encoding
 						while(!(st_char.equals("<"))){
-							st_char = ch.toString((char)in.readByte());
+							st_char = Character.toString((char)in.readByte()); // TODO: breaks encoding
 							//aggiorna_mark_file2();
 							
 						}
 						st1 = st1 + value + st_char;
 						while(in.available() !=0){
-							st_char = ch.toString((char)in.readByte());
+							st_char = Character.toString((char)in.readByte()); // TODO: breaks encoding
 							st1 = st1 + st_char;
 						}
 						FileOutputStream f = null;
@@ -171,7 +179,6 @@ public class DB_Contest{
 		try{
 			String _field = "";
 			String _field_char = null; 
-			List lis = new ArrayList();
 			Character ch = new Character((char)in.readByte());
 			aggiorna_mark_file();
 			
@@ -180,7 +187,7 @@ public class DB_Contest{
 				//return("/");
 			while(!(_field_char).equals(">")){
 				_field = _field + _field_char;
-				_field_char = ch.toString((char)in.readByte());
+				_field_char = Character.toString((char)in.readByte()); //TODO: breaks encoding
 				aggiorna_mark_file();
 			}
 			return(_field);
@@ -192,7 +199,6 @@ public class DB_Contest{
 		try{
 			String value = "";
 			String value_char = null; 
-			List lis = new ArrayList();
 			Character ch = new Character((char)in.readByte());
 			aggiorna_mark_file();
 			//if(!((ch.toString()).equals(" ")))
@@ -202,16 +208,19 @@ public class DB_Contest{
 					value = value + value_char;
 				}
 				//System.out.print(value_char);
-				value_char = ch.toString((char)in.readByte());
+				value_char = Character.toString((char)in.readByte()); //TODO: breaks encoding
 				aggiorna_mark_file();
 			}
 			return(value);
-		}catch(IOException io){System.out.println(io);}		
+		}catch(IOException io){
+			System.out.println(io);
+		}		
 		return(" ");
 	};
 	
 	//scrive il valore partendo dall' elemento successivo puntato da "in", fino a "<" 
 	
+	// TODO: remove?
 	public static void main(String args[]){
 	 
 	};
