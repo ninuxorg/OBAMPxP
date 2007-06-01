@@ -19,12 +19,10 @@
       
     <path id="OBAMP.classpath">
         <pathelement location="bin"/>
-        <pathelement location="db"/>
     	<pathelement location="lib/log4j-1.2.14.jar"/>
     </path>
 	 <path id="test.OBAMP.classpath">
 	        <pathelement location="bin"/>
-	        <pathelement location="db"/>
 	    	<pathelement location="lib/log4j-1.2.14.jar"/>
 	    	<pathelement location="lib/junit-3.8.1.jar"/>
 	    </path>
@@ -68,11 +66,8 @@
      <manifest file="MANIFEST.MF">
         <attribute name="Built-By" value="Remo Pomposini"/>
         <attribute name="Main-Class" value="CollabTool"/>
-		<attribute name="Class-Path" value="db\DB_Contest.class lib\log4j-1.2.14.jar"/>        
+		<attribute name="Class-Path" value="lib\log4j-1.2.14.jar"/>        
     </manifest>    
-    <copy todir="${build.home}">
-    	<fileset dir="db"/>
-  	</copy>
     <jar jarfile="${dist.home}/${app.name}.jar"
          basedir="${build.home}"
          manifest="MANIFEST.MF"
