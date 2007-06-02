@@ -644,7 +644,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 				boolean cond = IP<IPcore && 
 						this.SenderISValid(MEMBER_LIST[r]) && 
 						!(MEMBER_LIST[r].equals(state.MyAddress));
-				log.info("will sendOuterTreeCreate is "+cond+ " for "+MEMBER_LIST[r]);
+				log.info("sendOuterTreeCreate is "+cond+ " for "+MEMBER_LIST[r]);
 				if(cond){
 					log.debug("-- calling this.sendOuterTreeCreate("+MEMBER_LIST[r]+")");
 					this.sendOuterTreeCreate(MEMBER_LIST[r]);
