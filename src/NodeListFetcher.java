@@ -65,11 +65,14 @@ public class NodeListFetcher {
 	public static void getUrl(DB_Contest db) 
 	throws MalformedURLException, IOException {
 		String url = db.get(OBAMP_NODES_URL).trim();
-		// Note: db.get(...) returns "ciao" if no value is set
-		if (url != null && url.length() > 0 && !url.equals("ciao"))
+		// Note: db.get(...) returns "ciao" or "error" if no value is set
+		log.info("got url string '" + url + "' from config file");
+		if (url != null && url.length() > 0 && !url.equals("ciao") 
+				&& !url.equals("error"))
 			getUrl(url);
 		else
-			log.info("empty node list URL, not fetching it...");
+			log.info("Node list URL is empty or malformed, " +
+					"not fetching it...");
 	}
 	
 	/**
