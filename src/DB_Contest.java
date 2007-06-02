@@ -25,15 +25,20 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
+
 /**
  * This class deals with reading / parsing the obamp config file.
  * 
  * @author Claudio Loreti
- * @author fb
+ * @author Fabian Bieker (minor improvments)
  *
  */
 // TODO: use log4j - do not println(exception)
 public class DB_Contest{
+	
+	private static final Logger log = 
+		Logger.getLogger(DB_Contest.class);
 	
 	private int mark_file1;
 	private int mark_file2;
@@ -73,15 +78,17 @@ public class DB_Contest{
 	//ritorna il valore associato al campo come stringa
 	public String get(String campo){
 		
+		DataInputStream in = null;
+		
 		try{
 			Character ch;
 			String st = null;
 			String st_char = "";
-			DataInputStream in = 
-				new DataInputStream(
+			in = new DataInputStream(
 					new BufferedInputStream(
 						new FileInputStream(file_contest)));
-						
+				
+				// TODO: deal with EOF cases without triggering an exception
 				while(in.available() !=0){
 					ch = new Character((char)in.readByte());
 					aggiorna_mark_file();
@@ -95,16 +102,24 @@ public class DB_Contest{
 					st = read_field(in);
 					if(st.equals(campo)){
 						st = read_value(in);
-						return(st);
+						return st;
 					}
 				}
-			return(st);
+			return st;
 				
-		}catch(IOException io){
-			System.out.println(io);
-		}					
+		} catch(IOException e) {
+			log.error("I/O error while reading config", e);
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					log.info("failed to close input stream", e);
+				}
+			}
+		}
 		
-		return("error");
+		return("error"); // TODO: throw exception
 	};
 	
 
@@ -119,16 +134,18 @@ public class DB_Contest{
 	//inserisce nuovo campo e il rispettivo valore
 	//scrive il valore nel campo rispettivo 
 	public boolean put(String campo, String value){
+		
+		DataInputStream in = null;
+		
 		try{
 			
 			Character ch;
 			String st1 = "";
 			String st = "";
 			String st_char = "";
-			DataInputStream in = 
-				new DataInputStream(
+			in = new DataInputStream(
 					new BufferedInputStream(
-						new FileInputStream(file_contest)));
+							new FileInputStream(file_contest)));
 						
 				while(in.available() !=0){
 					ch = new Character((char)in.readByte());
@@ -158,20 +175,27 @@ public class DB_Contest{
 						f = new FileOutputStream(file_contest);
 						DataOutputStream os = new DataOutputStream(f);
 						os.writeBytes(st1);
-						f.close();
-						return(true);
+						f.close(); // FIXME: might not be reached?
+						return true ;
 					}else
 						st1 = st1 + st +">";
 				}
 				
-			
-			
-			return(false);
+			return false;
 				
-		}catch(IOException io){System.out.println(io);}		
+		}catch(IOException e){
+			log.error("I/O error while updating config", e);
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					log.info("failed to close input stream", e);
+				}
+			}
+		}
 		
-		
-		return(false);
+		return false;
 	};
 	
 	//ritorna il campo passando "in" che punta l' elemento "<" 
@@ -191,8 +215,10 @@ public class DB_Contest{
 				aggiorna_mark_file();
 			}
 			return(_field);
-		}catch(IOException io){System.out.println(io);}		
-		return(" ");
+		}catch(IOException e){
+			log.error("I/O error while reading input stream", e);
+		}		
+		return(" "); // TODO: throw expception or return null?
 	};
 	//ritorna il valore passando "in" che punta l' elemento ">"
 	protected String read_value(DataInputStream in){
@@ -212,16 +238,16 @@ public class DB_Contest{
 				aggiorna_mark_file();
 			}
 			return(value);
-		}catch(IOException io){
-			System.out.println(io);
+		}catch(IOException e){
+			log.error("I/O error while reading input stream", e);
 		}		
-		return(" ");
+		return(" "); // TODO: throw expception or return null?
 	};
 	
 	//scrive il valore partendo dall' elemento successivo puntato da "in", fino a "<" 
 	
 	// TODO: remove?
-	public static void main(String args[]){
+	/*public static void main(String args[]){
 	 
-	};
+	};*/
 }
