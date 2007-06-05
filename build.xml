@@ -22,11 +22,11 @@
     	<pathelement location="lib/log4j-1.2.14.jar"/>
     </path>
 	 <path id="test.OBAMP.classpath">
-	        <pathelement location="bin"/>
+	        <pathelement location="${build.home}"/>
 	    </path>
     <target name="init">
         <mkdir dir="bin"/>
-        <copy includeemptydirs="false" todir="bin">
+        <copy includeemptydirs="false" todir="${build.home}">
             <fileset dir="src" excludes="**/*.launch, **/*.java"/>
         </copy>
     	<copy file="log4j.properties" todir="${build.home}"/>
@@ -40,21 +40,21 @@
         </delete>
     </target>
     <target depends="clean,test-clean" name="cleanall">
-    		<delete dir="dist"/>
+    		<delete dir="${dist.home}"/>
     </target>
 	
 	<!-- unizp libs to rebundle them in jar -->
 	<!-- TODO: only do if needed using unless attr -->
 	<target name="expand-libs">
-		   	<unzip src="lib/log4j-1.2.14.jar" dest="bin"/>
-		   	<unzip src="lib/junit-3.8.1.jar" dest="bin"/> <!-- FIXME: might be unneeded -->
+		   	<unzip src="lib/log4j-1.2.14.jar" dest="${build.home}"/>
+		   	<unzip src="lib/junit-3.8.1.jar" dest="${build.home}"/> <!-- FIXME: might be unneeded -->
 	</target>
     
     <target depends="build-subprojects,build-project,expand-libs" name="build"/>
     <target name="build-subprojects"/>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+        <javac debug="true" debuglevel="${debuglevel}" destdir="${build.home}" source="${source}" target="${target}">
             <src path="src"/>
             <classpath refid="OBAMP.classpath"/>
         </javac>
