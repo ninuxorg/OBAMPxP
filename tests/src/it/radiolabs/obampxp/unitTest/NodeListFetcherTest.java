@@ -23,11 +23,15 @@
 //import NodeListFetcher; // FIXME: can not import stuff from the default package
 package it.radiolabs.obampxp.unitTest;
 
+import it.radiolabs.obampxp.DB_Contest;
+import it.radiolabs.obampxp.NodeListFetcher;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-import it.radiolabs.obampxp.DB_Contest;
-import it.radiolabs.obampxp.NodeListFetcher;
 import junit.framework.TestCase;
 
 /**
@@ -52,6 +56,25 @@ public class NodeListFetcherTest extends TestCase {
 	public void testGetUrlString() throws MalformedURLException, IOException {
 		NodeListFetcher.getUrl(
 			"http://page.mi.fu-berlin.de/bieker/obamp_nodes_test.txt");
+		
+		/* Compare file to this:
+		 * # THIS FILE SHOULD ONLY BE USED FOR UNIT-TESTING
+		 * 42.42.42.23
+		 */
+		BufferedReader bin = null;
+		File f = null;
+		try {
+			f = new File(NodeListFetcher.OBAMP_NODES_FILE);
+			assertTrue(f.canRead());
+			bin = new BufferedReader(new FileReader(f));
+			assertEquals("# THIS FILE SHOULD ONLY BE USED FOR UNIT-TESTING", 
+					bin.readLine().trim());
+			assertEquals("42.42.42.23", bin.readLine().trim());
+		} finally {
+			if (bin!=null) bin.close();
+		}
+		
+		
 	}
 
 }
