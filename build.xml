@@ -23,8 +23,6 @@
     </path>
 	 <path id="test.OBAMP.classpath">
 	        <pathelement location="bin"/>
-	    	<pathelement location="lib/log4j-1.2.14.jar"/>
-	    	<pathelement location="lib/junit-3.8.1.jar"/>
 	    </path>
     <target name="init">
         <mkdir dir="bin"/>
@@ -44,7 +42,15 @@
     <target depends="clean,test-clean" name="cleanall">
     		<delete dir="dist"/>
     </target>
-    <target depends="build-subprojects,build-project" name="build"/>
+	
+	<!-- unizp libs to rebundle them in jar -->
+	<!-- TODO: only do if needed using unless attr -->
+	<target name="expand-libs">
+		   	<unzip src="lib/log4j-1.2.14.jar" dest="bin"/>
+		   	<unzip src="lib/junit-3.8.1.jar" dest="bin"/> <!-- FIXME: might be unneeded -->
+	</target>
+    
+    <target depends="build-subprojects,build-project,expand-libs" name="build"/>
     <target name="build-subprojects"/>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
@@ -84,7 +90,7 @@
     <copy todir="${dist.home}\image">
     	<fileset dir="image"/>
   	</copy>
-
+   
  	</target>
   
 	<!-- =================== Build-test Target ================================ -->
