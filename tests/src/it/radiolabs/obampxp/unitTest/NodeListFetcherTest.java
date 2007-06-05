@@ -73,8 +73,6 @@ public class NodeListFetcherTest extends TestCase {
 		} finally {
 			if (bin!=null) bin.close();
 		}
-		
-		
-	}
-
+	}	
+	
 }
