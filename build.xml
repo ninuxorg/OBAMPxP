@@ -35,7 +35,6 @@
         <copy includeemptydirs="false" todir="${build.home}">
             <fileset dir="src" excludes="**/*.launch, **/*.java"/>
         </copy>
-    	<copy file="log4j.properties" todir="${build.home}"/>
     </target>
 	
     <target name="clean">
@@ -47,7 +46,7 @@
         </delete>
     </target>
 	
-    <target depends="clean,test-clean" name="cleanall">
+    <target depends="clean,clean-test" name="cleanall">
     		<delete dir="${dist.home}"/>
     </target>
 	
@@ -56,7 +55,10 @@
 	<target name="expand-libs">
 		<copy file="lib/junit-cpl-v10.html" todir="${build.home}"/>	
 		<copy file="lib/log4j-NOTICE" todir="${build.home}"/>	
-		<copy file="lib/log4j-LICENSE" todir="${build.home}"/>	
+		<copy file="lib/log4j-LICENSE" todir="${build.home}"/>
+		<!-- just provide the log4j config in two places, you never know ... -->
+		<copy file="log4j.properties" todir="${build.home}\it\radiolabs\obampxp\"/>
+    	<copy file="log4j.properties" todir="${build.home}"/>
 	   	<unzip src="${lib.log4j}" dest="${build.home}"/>
 		<!-- delete some foo that was unziped -->
 		<delete includeemptydirs="yes">
@@ -89,7 +91,7 @@
     <delete file="MANIFEST.MF"/>
      <manifest file="MANIFEST.MF">
         <attribute name="Built-By" value="Remo Pomposini"/>
-        <attribute name="Main-Class" value="CollabTool"/>
+        <attribute name="Main-Class" value="it.radiolabs.obampxp.CollabTool"/>
     </manifest>    
     <jar jarfile="${dist.home}/${app.name}.jar"
          basedir="${build.home}"
@@ -109,19 +111,19 @@
   
 	<!-- =================== Build-test Target ================================ -->
 	
-	<target name="test-init">
+	<target name="init-test" description="Init test setup">
 	    <mkdir dir="${test.build.home}"/>
         <copy includeemptydirs="false" todir="${test.build.home}">
             <fileset dir="src" excludes="**/*.launch, **/*.java"/>
         </copy>
-    	<copy file="log4j.properties" todir="${test.build.home}"/>
+    	<copy file="log4j.properties" todir="${test.build.home}\it\radiolabs\obampxp\"/>
     </target>
 	
-    <target name="test-clean">
+    <target name="clean-test">
         <delete dir="${test.build.home}"/>
     </target>
 	
-  	<target name="build-test" depends="test-init,build" description="Build test code">
+  	<target name="build-test" depends="init-test,build" description="Build test code">
   		<javac debug="true" debuglevel="${debuglevel}" destdir="${test.build.home}" 
   			source="${source}" target="${target}">
             <src path="${test.src.home}"/>

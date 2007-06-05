@@ -2,4 +2,4 @@
 JAVA=java
 VM_ARGS='-server -ea'
 
-$JAVA $VM_ARGS -cp OBAMPxP.jar CollabTool $*
+$JAVA $VM_ARGS -jar OBAMPxP.jar $*

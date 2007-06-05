@@ -23,6 +23,11 @@
 //import NodeListFetcher; // FIXME: can not import stuff from the default package
 package unitTest;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+
+import it.radiolabs.obampxp.DB_Contest;
+import it.radiolabs.obampxp.NodeListFetcher;
 import junit.framework.TestCase;
 
 /**
@@ -41,11 +46,12 @@ public class NodeListFetcherTest extends TestCase {
 
 	/**
 	 * Test method for {@link NodeListFetcher#getUrl(java.lang.String)}.
+	 * @throws IOException 
+	 * @throws MalformedURLException 
 	 */
-	public void testGetUrlString() {
-		// TODO
-		//	NodeListFetcher.getUrl(
-		//	"http://page.mi.fu-berlin.de/bieker/obamp_nodes_tests.txt");
+	public void testGetUrlString() throws MalformedURLException, IOException {
+		NodeListFetcher.getUrl(
+			"http://page.mi.fu-berlin.de/bieker/obamp_nodes_tests.txt");
 	}
 
 }
