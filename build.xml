@@ -58,7 +58,7 @@
 		<copy file="lib/log4j-NOTICE" todir="${build.home}"/>	
 		<copy file="lib/log4j-LICENSE" todir="${build.home}"/>
 		<!-- just provide the log4j config in two places, you never know ... -->
-		<copy file="log4j.properties" todir="${build.home}\it\radiolabs\obampxp\"/>
+		<copy file="log4j.properties" todir="${build.home}/it/radiolabs/obampxp/util/"/>
     	<copy file="log4j.properties" todir="${build.home}"/>
 	   	<unzip src="${lib.log4j}" dest="${build.home}"/>
 		<!-- delete some foo that was unziped -->
@@ -117,7 +117,7 @@
         <copy includeemptydirs="false" todir="${test.build.home}">
             <fileset dir="src" excludes="**/*.launch, **/*.java"/>
         </copy>
-    	<copy file="log4j.properties" todir="${test.build.home}/it/radiolabs/obampxp/"/>
+		<copy file="log4j.properties" todir="${build.home}/it/radiolabs/obampxp/util/"/>
     </target>
 	
     <target name="clean-test">
