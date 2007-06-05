@@ -4,6 +4,7 @@
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. -->
+<!-- TODO: the above comment is obsolete, is it? (fabian.bieker) -->
 <project basedir="." default="build" name="OBAMP">
     <property environment="env"/>
     <property name="debuglevel" value="source,lines,vars"/>
@@ -18,7 +19,7 @@
 	<property name="test.src.home"  value="tests/src"/>
 	<property name="lib.log4j"  value="lib/log4j-1.2.14.jar"/>
 	<property name="lib.junit"  value="lib/junit-3.8.1.jar"/>
-	<!-- TODO: use more vars - for log4j...jar etc. -->
+	<!-- TODO: use more vars -->
       
     <path id="OBAMP.classpath">
         <pathelement location="bin"/>
@@ -116,7 +117,7 @@
         <copy includeemptydirs="false" todir="${test.build.home}">
             <fileset dir="src" excludes="**/*.launch, **/*.java"/>
         </copy>
-    	<copy file="log4j.properties" todir="${test.build.home}\it\radiolabs\obampxp\"/>
+    	<copy file="log4j.properties" todir="${test.build.home}/it/radiolabs/obampxp/"/>
     </target>
 	
     <target name="clean-test">
