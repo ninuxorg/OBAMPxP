@@ -21,7 +21,7 @@
 
 
 //import NodeListFetcher; // FIXME: can not import stuff from the default package
-package unitTest;
+package it.radiolabs.obampxp.unitTest;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
