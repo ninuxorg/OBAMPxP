@@ -19,12 +19,13 @@ package it.radiolabs.obampxp;
     
 */
 
+import it.radiolabs.obampxp.multicast.OverlayNeighbor;
+
 import java.util.Timer;
 import java.util.TimerTask;
 import java.io.DataInputStream;
 import java.net.InetAddress;
 
-import Multicast.OverlayNeighbor;
 
 
 

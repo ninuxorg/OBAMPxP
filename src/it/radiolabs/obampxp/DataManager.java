@@ -19,6 +19,8 @@ package it.radiolabs.obampxp;
     
 */
 
+import it.radiolabs.obampxp.multicast.OverlayNeighbor;
+
 import java.awt.Checkbox;
 import java.awt.TextArea;
 import java.net.DatagramPacket;
@@ -29,7 +31,6 @@ import java.util.Hashtable;
 import org.apache.log4j.Logger;
 
 import prominence.util.Queue;
-import Multicast.OverlayNeighbor;
 
 public class  DataManager implements Runnable{
 

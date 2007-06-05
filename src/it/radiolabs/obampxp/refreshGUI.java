@@ -19,11 +19,12 @@ package it.radiolabs.obampxp;
     
 */
 
+import it.radiolabs.obampxp.multicast.OverlayNeighbor;
+
 import java.net.InetAddress;
 import java.util.Enumeration;
 import java.util.Timer;
 
-import Multicast.OverlayNeighbor;
 
 
 public class refreshGUI {

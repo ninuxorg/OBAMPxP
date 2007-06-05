@@ -19,9 +19,10 @@ package it.radiolabs.obampxp;
     
 */
 
+import it.radiolabs.obampxp.multicast.*;
+
 import java.net.InetAddress;
 import java.util.*;
-import Multicast.*;
 
 public class nb_purge {
     

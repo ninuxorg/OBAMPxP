@@ -28,6 +28,8 @@ package it.radiolabs.obampxp;
  *
  * @author Remo
  */
+import it.radiolabs.obampxp.multicast.MyStatus;
+
 import java.awt.TextArea;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -37,7 +39,6 @@ import java.net.InetAddress;
 import org.apache.log4j.Logger;
 
 import prominence.util.Queue;
-import Multicast.MyStatus;
 
 public class AppReceiver implements Runnable {
 	

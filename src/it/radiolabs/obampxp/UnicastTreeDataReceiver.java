@@ -19,6 +19,8 @@ package it.radiolabs.obampxp;
     
 */
 
+import it.radiolabs.obampxp.multicast.MyStatus;
+
 import java.awt.TextArea;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -28,7 +30,6 @@ import java.net.InetAddress;
 import org.apache.log4j.Logger;
 
 import prominence.util.Queue;
-import Multicast.MyStatus;
 
 public class UnicastTreeDataReceiver implements Runnable {
 
