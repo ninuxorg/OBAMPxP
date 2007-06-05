@@ -51,7 +51,7 @@ public class NodeListFetcherTest extends TestCase {
 	 */
 	public void testGetUrlString() throws MalformedURLException, IOException {
 		NodeListFetcher.getUrl(
-			"http://page.mi.fu-berlin.de/bieker/obamp_nodes_tests.txt");
+			"http://page.mi.fu-berlin.de/bieker/obamp_nodes_test.txt");
 	}
 
 }
