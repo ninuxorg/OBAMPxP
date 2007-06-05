@@ -1,4 +1,4 @@
-package it.radiolabs.obampxp;
+package it.radiolabs.obampxp.util;
 /*    
 	Copyright (C) 2007  Claudio Loreti
 	This file is part of "Obamp Proxy",

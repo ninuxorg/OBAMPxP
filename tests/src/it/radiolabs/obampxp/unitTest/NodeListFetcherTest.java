@@ -23,8 +23,8 @@
 //import NodeListFetcher; // FIXME: can not import stuff from the default package
 package it.radiolabs.obampxp.unitTest;
 
-import it.radiolabs.obampxp.DB_Contest;
-import it.radiolabs.obampxp.NodeListFetcher;
+import it.radiolabs.obampxp.util.DB_Contest;
+import it.radiolabs.obampxp.util.NodeListFetcher;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -19,6 +19,8 @@ package it.radiolabs.obampxp;
     
 */
 
+import it.radiolabs.obampxp.util.Log4jInit;
+
 import java.awt.Button;
 import java.awt.Checkbox;
 import java.awt.Color;

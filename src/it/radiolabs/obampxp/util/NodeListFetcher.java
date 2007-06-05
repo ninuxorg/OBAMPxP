@@ -1,4 +1,4 @@
-package it.radiolabs.obampxp;
+package it.radiolabs.obampxp.util;
 /*
  Copyright (C) 2007 Fabian Bieker
  This file is part of "Obamp Proxy",
@@ -18,6 +18,7 @@ package it.radiolabs.obampxp;
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  
 */
+
 
 import java.io.BufferedReader;
 import java.io.File;

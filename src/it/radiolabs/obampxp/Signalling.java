@@ -20,6 +20,8 @@ package it.radiolabs.obampxp;
 */
 
 import it.radiolabs.obampxp.multicast.OverlayNeighbor;
+import it.radiolabs.obampxp.util.DB_Contest;
+import it.radiolabs.obampxp.util.NodeListFetcher;
 
 import java.awt.Checkbox;
 import java.awt.Label;
