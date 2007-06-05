@@ -16,15 +16,19 @@
 	<property name="src.home"  value="src"/>
 	<property name="test.build.home" value="tests/bin"/>
 	<property name="test.src.home"  value="tests/src"/>
+	<property name="lib.log4j"  value="lib/log4j-1.2.14.jar"/>
+	<property name="lib.junit"  value="lib/junit-3.8.1.jar"/>
 	<!-- TODO: use more vars - for log4j...jar etc. -->
       
     <path id="OBAMP.classpath">
         <pathelement location="bin"/>
-    	<pathelement location="lib/log4j-1.2.14.jar"/>
+    	<pathelement location="${lib.log4j}"/>
     </path>
 	 <path id="test.OBAMP.classpath">
-	        <pathelement location="${build.home}"/>
-	    </path>
+        <pathelement location="${build.home}"/>
+    	<pathelement location="${lib.log4j}"/>
+    	<pathelement location="${lib.junit}"/>
+    </path>
 	
     <target name="init">
         <mkdir dir="bin"/>
@@ -53,8 +57,7 @@
 		<copy file="lib/junit-cpl-v10.html" todir="${build.home}"/>	
 		<copy file="lib/log4j-NOTICE" todir="${build.home}"/>	
 		<copy file="lib/log4j-LICENSE" todir="${build.home}"/>	
-	   	<unzip src="lib/log4j-1.2.14.jar" dest="${build.home}"/>
-	   	<!-- <unzip src="lib/junit-3.8.1.jar" dest="${build.home}"/>-->
+	   	<unzip src="${lib.log4j}" dest="${build.home}"/>
 		<!-- delete some foo that was unziped -->
 		<delete includeemptydirs="yes">
 		        	<fileset dir="${build.home}" defaultexcludes="true">
