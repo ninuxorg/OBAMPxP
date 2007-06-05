@@ -110,13 +110,4 @@ public class NodeListFetcher {
 		}
 	}
 	
-	/**
-	 * leazy unit testing ...
-	 */
-	public static void main(String args[]) throws 
-	MalformedURLException, IOException {
-		NodeListFetcher.getUrl(
-				"http://page.mi.fu-berlin.de/bieker/obamp_nodes.txt");
-	}
-
 }
