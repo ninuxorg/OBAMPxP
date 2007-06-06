@@ -192,14 +192,14 @@ public class Stato /*implements Serializable*/ {
    	public int getAddressInt(InetAddress Address) {
    		
     	byte ind [] = Address.getAddress();
-    	int int0 = (int)ind[0];
+    	int int0 = ind[0];
     	
 		if (int0<0) int0=int0+256;
-		int int1 = (int)ind[1];
+		int int1 = ind[1];
 		if (int1<0) int1=int1+256;
-		int int2 = (int)ind[2];
+		int int2 = ind[2];
 		if (int2<0) int2=int2+256;
-		int int3 = (int)ind[3];
+		int int3 = ind[3];
 		if (int3<0) int3=int3+256;
 		
 		Integer i1 = new Integer(int0);

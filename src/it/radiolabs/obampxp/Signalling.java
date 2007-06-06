@@ -195,10 +195,10 @@ public class Signalling implements Runnable{
     
     boolean CHECK_SEQ_NUM(byte stateSN_, byte pktSN_){
         
-        int stateSN = (int)stateSN_;
+        int stateSN = stateSN_;
         if(stateSN<0)
         	stateSN = stateSN + 256;
-        int pktSN = (int)pktSN_;
+        int pktSN = pktSN_;
         if(pktSN<0)
         	pktSN = pktSN +256;
         if (Math.abs(pktSN-stateSN)>5){
@@ -241,7 +241,7 @@ public class Signalling implements Runnable{
 		
         int ref_byte,ref_bit;
         byte insert_char=0x01;
-        ref_byte=(int)id/8;
+        ref_byte=id/8;
         ref_bit=id % 8;
         insert_char=(byte)(insert_char<<ref_bit);
         pkt_[ref_byte+6]=(byte)(pkt_[ref_byte+6]|(insert_char));
@@ -262,7 +262,7 @@ public class Signalling implements Runnable{
 		}
 		 int ref_byte,ref_bit;
         byte insert_char=0x01;
-        ref_byte=(int)id/8;
+        ref_byte=id/8;
         ref_bit=id % 8;
         insert_char=(byte)(insert_char<<ref_bit);
         pkt_[ref_byte]=(byte)(pkt_[ref_byte]|(insert_char));
@@ -273,7 +273,7 @@ public class Signalling implements Runnable{
 public void node_map_insert_Join(int  id, byte[] pkt_) {
         int ref_byte,ref_bit;
         byte insert_char=0x01;
-        ref_byte=(int)id/8;
+        ref_byte=id/8;
         ref_bit=id % 8;
         insert_char=(byte)(insert_char<<ref_bit);
         pkt_[ref_byte]=(byte)(pkt_[ref_byte]|(insert_char));
@@ -287,7 +287,7 @@ public void node_map_insert(int id_, byte[] pkt_) {
         int id = id_;
 		int ref_byte,ref_bit;
         byte insert_char=0x01;
-        ref_byte=(int)id/8;
+        ref_byte=id/8;
         ref_bit=id % 8;
         insert_char=(byte)(insert_char<<ref_bit);
         pkt_[ref_byte+6]=(byte)(pkt_[ref_byte+6]|(insert_char));
@@ -309,7 +309,7 @@ public void node_map_insert(int id_, byte[] pkt_) {
 		}
    		int ref_byte,ref_bit;
         byte insert_char=0x01;
-        ref_byte=(int)id/8;
+        ref_byte=id/8;
         ref_bit=(id) % (8);
         insert_char=(byte)(insert_char<<ref_bit);
         if(((pkt_[ref_byte+6]) & (insert_char))==0x00) {
@@ -333,7 +333,7 @@ public boolean node_map_lookup_Join(String addr, byte[] pkt_) {
 		}
    		int ref_byte,ref_bit;
         byte insert_char=0x01;
-        ref_byte=(int)id/8;
+        ref_byte=id/8;
         ref_bit=(id) % (8);
         insert_char=(byte)(insert_char<<ref_bit);
         if(((pkt_[ref_byte]) & (insert_char))==0x00) {
@@ -347,7 +347,7 @@ public boolean node_map_lookup_Join(int id, byte[] pkt_) {
 		
     int ref_byte,ref_bit;
     byte insert_char=0x01;
-    ref_byte=(int)id/8;
+    ref_byte=id/8;
     ref_bit=(id) % (8);
     insert_char=(byte)(insert_char<<ref_bit);
     if(((pkt_[ref_byte]) & (insert_char))==0x00) {
@@ -362,7 +362,7 @@ public boolean node_map_lookup(int id_, byte[] pkt_) {
    		int id = id_;
 		int ref_byte,ref_bit;
         byte insert_char=0x01;
-        ref_byte=(int)id/8;
+        ref_byte=id/8;
         ref_bit=(id) % (8);
         insert_char=(byte)(insert_char<<ref_bit);
         if(((pkt_[ref_byte+6]) & (insert_char))==0x00) {
@@ -456,7 +456,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
         }
  
     	boolean multicast_done = false;
-    	int TCSN = (int)state.TreeCreateSequenceNumber;
+    	int TCSN = state.TreeCreateSequenceNumber;
     	if(TCSN<0)
             TCSN = TCSN + 256;
         TCSN = TCSN + 1;
@@ -630,7 +630,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 		        	}
 		        }
 				
-    	int IPcore = (int) state.getAddressInt(state.CoreAddress);
+    	int IPcore = state.getAddressInt(state.CoreAddress);
     	log.info("state.CoreAddress="+state.CoreAddress);
 		if (log.isDebugEnabled()) {
 			log.debug("MEMBER_LIST="+Arrays.toString(MEMBER_LIST));
@@ -640,7 +640,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 		for(int r=0 ;r<MEMBER_LIST.length; r++){
 			if (MEMBER_LIST[r]!=null){
 				
-				int IP = (int) state.getAddressInt(MEMBER_LIST[r]);
+				int IP = state.getAddressInt(MEMBER_LIST[r]);
 
 				log.info("checking: " + MEMBER_LIST[r] +
 						"\tIP<IPCore=="+(IP<IPcore)+", this.SenderISValid(MEMBER_LIST[r])=" +
@@ -678,7 +678,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
     
     void sendOuterTreeCreate(InetAddress destaddr){
     	
-    	int TCSN = (int)state.TreeCreateSequenceNumber;
+    	int TCSN = state.TreeCreateSequenceNumber;
     	if(TCSN<0)
             TCSN = TCSN + 256;
         TCSN = TCSN + 1;
@@ -712,7 +712,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
     
     void sendTREE_CREATE_NACK(InetAddress dest){
     	
-    	int TCNSN = (int)state.TreeCreateNackSequenceNumber;
+    	int TCNSN = state.TreeCreateNackSequenceNumber;
 		if(TCNSN<0)
 			TCNSN = TCNSN + 256;
 		TCNSN = TCNSN + 1;
@@ -742,7 +742,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
    
    	void sendTreeCreateAck(InetAddress dest){
    		
-   		int TCASN = (int)state.TreeCreateAckSequenceNumber;
+   		int TCASN = state.TreeCreateAckSequenceNumber;
 		if(TCASN<0)
 			TCASN = TCASN + 256;
 		TCASN = TCASN + 1;
@@ -1323,10 +1323,10 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 
     boolean CHECK_SEQ_NUM(pktTreeCreate pkt){
         
-        int stateTCSN = (int)state.TreeCreateSequenceNumber;
+        int stateTCSN = state.TreeCreateSequenceNumber;
         if(stateTCSN<0)
             stateTCSN = stateTCSN + 256;
-        int pktTCSN = (int)pkt.SequenceNumber;
+        int pktTCSN = pkt.SequenceNumber;
         if(pktTCSN<0)
             pktTCSN = pktTCSN +256;
         //if (pktTCSN<3 && stateTCSN>253){
@@ -1499,7 +1499,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 		node_map_insert_Join(state.getAddressString(), node_map_Join);
 		
 		        
-		int JSN = (int)state.JoinSequenceNumber;
+		int JSN = state.JoinSequenceNumber;
 		if(JSN<0)
 			JSN = JSN + 256;
 		JSN = JSN + 1;
@@ -1604,7 +1604,7 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
     
     public InetAddress getAddresspkt(byte Address){
       	 
-      	int id = (int) Address;
+      	int id = Address;
       	if(id<0){
       		id=id+256;
       	}

@@ -75,7 +75,7 @@ public class HelloTimer {
         	                        nb.distance=TTL;
         	                        nb.Texpire=System.currentTimeMillis()+((long)(1.5*agent.Allowed_Hello_loss*agent.HELLO_INT));
         	                        
-        	                        int HSN = (int)agent.state.HelloConfSequenceNumber;
+        	                        int HSN = agent.state.HelloConfSequenceNumber;
         	                        if(HSN<0)
         	                           HSN = HSN + 256;
         	                        HSN = HSN + 1;

@@ -244,7 +244,7 @@ public class  DataManager implements Runnable{
 	public boolean checkData(rcvPKTid id, byte ChannelID){
 		
 		ret = false;
-		switch ((int)ChannelID){
+		switch (ChannelID){
 		case 1: 	
 			for (short i=0; i<100; i++) {
 			rcvPKTid key = dataCache_ChannelOne[i];
@@ -314,7 +314,7 @@ public class  DataManager implements Runnable{
     	rcvPKT = pkt_.getData();//new byte[];
     	forwardData(rcvPKT);
     	
-    switch ((int)rcvPKT[10]){
+    switch (rcvPKT[10]){
     	
        case 1: //Channel ONE
     		
@@ -404,7 +404,7 @@ case 5://Channel FIVE
     	int number_of_sent=0;
     	int number_of_multicast_sent = 0;
     	
-    	int dataID = (int)myID;
+    	int dataID = myID;
         if(dataID<0)
             dataID = dataID + 256;
         dataID = dataID + 1;

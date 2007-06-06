@@ -100,10 +100,10 @@ public class IDR_Timer {
     
     boolean CHECK_SEQ_NUM(byte stateSN_, byte pktSN_){
         
-        int stateSN = (int)stateSN_;
+        int stateSN = stateSN_;
         if(stateSN<0)
         	stateSN = stateSN + 256;
-        int pktSN = (int)pktSN_;
+        int pktSN = pktSN_;
         if(pktSN<0)
         	pktSN = pktSN +256;
         if (Math.abs(pktSN-stateSN)>5){
