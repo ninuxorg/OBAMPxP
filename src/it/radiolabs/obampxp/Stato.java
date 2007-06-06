@@ -19,7 +19,7 @@ package it.radiolabs.obampxp;
     
 */
 
-import java.net.*;
+import java.net.InetAddress;;
 
 public class Stato /*implements Serializable*/ {
     

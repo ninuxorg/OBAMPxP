@@ -19,7 +19,7 @@
 */
 package it.radiolabs.obampxp.multicast;
 
-import java.net.*;
+import java.net.InetAddress;
 
 public class OverlayNeighbor {
   

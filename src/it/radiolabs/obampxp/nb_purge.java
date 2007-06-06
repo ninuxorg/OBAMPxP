@@ -19,10 +19,12 @@ package it.radiolabs.obampxp;
     
 */
 
-import it.radiolabs.obampxp.multicast.*;
+import it.radiolabs.obampxp.multicast.OverlayNeighbor;
 
 import java.net.InetAddress;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class nb_purge {
     
