@@ -114,9 +114,7 @@ public class IDR_Timer {
 
 	public void handle(){
 
-
 		switch (id) {
-
 
 		case 2://TreeCreate packet delay
 			synchronized(agent.signalling_use){
