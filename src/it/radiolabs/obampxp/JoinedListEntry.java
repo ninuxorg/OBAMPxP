@@ -35,6 +35,7 @@ public class JoinedListEntry {
 		JoinSequenceNumber = SequenceNumber_;
 	}
 
+	@Override
 	public String toString() {
 		return this.getClass().getName() + "(metrica=" + 
 		metrica + ", IPaddress=" + IPaddress + ", Texpire=" + Texpire + 

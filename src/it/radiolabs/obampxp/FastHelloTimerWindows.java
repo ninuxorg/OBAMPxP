@@ -106,7 +106,8 @@ public class FastHelloTimerWindows {
 
     class FastHelloWindowsTask extends TimerTask {
 	
-        public void run() {
+        @Override
+		public void run() {
         	           
             handle();
             

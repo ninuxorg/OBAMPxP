@@ -47,7 +47,8 @@ public class JoinedTimer {
 
     class JoinTask extends TimerTask {
 	
-        public void run() {
+        @Override
+		public void run() {
         	           
             handle();
             

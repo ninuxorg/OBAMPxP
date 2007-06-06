@@ -82,11 +82,13 @@ public class CollabTool extends Frame {
     local = 0;
   }
   
-  public void update( Graphics g) {
+  @Override
+public void update( Graphics g) {
 	   paint(g);
 	   }
 
-  public void paint(Graphics g) {
+  @Override
+public void paint(Graphics g) {
 	  //g.drawImage(logoRadiolabs, 300, 55, this);
 	  g.drawImage(logo, 20, 635, this);
     }
@@ -204,6 +206,7 @@ public class CollabTool extends Frame {
 	
 //--------------------------------------------------
 
+	@Override
 	public boolean handleEvent(Event event) {
 		
         if (event.id == Event.WINDOW_DESTROY) {

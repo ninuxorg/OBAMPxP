@@ -157,7 +157,8 @@ public class IDR_Timer {
 
     class IDR_TimerTask extends TimerTask {
 	
-        public void run() {
+        @Override
+		public void run() {
 	    		handle();
 	    		timer.cancel();
         }

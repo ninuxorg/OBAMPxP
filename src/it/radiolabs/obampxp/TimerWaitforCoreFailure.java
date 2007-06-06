@@ -49,7 +49,8 @@ public class TimerWaitforCoreFailure {
 
     class TimerWaitforCoreFailureTask extends TimerTask {
 	
-        public void run() {
+        @Override
+		public void run() {
         	
 	    		handle();
 	    		timer.cancel();
