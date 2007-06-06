@@ -40,6 +40,7 @@ public class Log4jInit {
 	public static final String LOG4J_CONFIG_FILENAME = "log4j.properties";
 	
 	private static volatile boolean initDone = false;
+	private static volatile boolean initOnceDone = false;
 	
 	/**
 	 * Call this method to get log4j initialized.
@@ -77,24 +78,41 @@ public class Log4jInit {
 				final URL log4jResource = 
 					Log4jInit.class.getResource(LOG4J_CONFIG_FILENAME);
 				
-				System.err.println("got log4j-config-resource=" 
-						+ log4jResource);
-				
-				PropertyConfigurator.configure(log4jResource);
-				initDone = true;
-				log.debug("log4j init from " + LOG4J_CONFIG_FILENAME + 
+				//System.err.println("got log4j-config-resource=" 
+				//		+ log4jResource);
+				if (log4jResource==null) {
+					System.err.println("failed to get resource " + 
+							LOG4J_CONFIG_FILENAME + "(returned null)" + 
+							" - not started from jar?");
+				} else {
+					PropertyConfigurator.configure(log4jResource);
+					initDone = true;
+					log.debug("log4j init from " + LOG4J_CONFIG_FILENAME + 
 						" inside .jar - successfull");
+				}
 			} catch (Throwable t2) {
 				t2.printStackTrace(System.err);
+			} finally {
 				System.err.println("failed to init log4j - falling back " +
 					"to defaults...");
 				BasicConfigurator.configure();
 				// this is not considured a valid init 
 				// 	-> initDone not touched
-
-			} 
+			}
 		}
 		
 	}
 
+	/**
+	 * method to init Log4j once in the static constructor.
+	 * Used for unit tests. Calls init() .
+	 * @see it.radiolabs.obampxp.util.Log4jInit#init()
+	 */
+	public static synchronized void initOnce() {
+		if (!initOnceDone ) {
+			Log4jInit.init();
+			initOnceDone = true;
+		}
+	}
+	
 }
