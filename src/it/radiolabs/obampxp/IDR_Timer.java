@@ -144,7 +144,7 @@ public class IDR_Timer {
            				agent.retransmitTREE_CREATE_NACK(dest, pkt_to_send);
            			}	
     			} else {
-    				int i=1; // FIXME: why? i is never read... (fabian)
+    				// int i=1; // why? i is never read... (fabian)
     			}
     			break;
            	case 5://expanding ring Hello Timer 
