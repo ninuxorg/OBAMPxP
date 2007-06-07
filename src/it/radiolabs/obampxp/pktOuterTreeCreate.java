@@ -95,7 +95,14 @@ public class pktOuterTreeCreate {
 		SequenceNumber = pkt[3];
 		CoreAddress = pkt[4];
 		delay = pkt[5];
-		            
+		
+		assert SourceIP < agent.mesh_list_vector.length : "SourceIP=" 
+			+ SourceIP + " to large for mesh_list_vector.length=" 
+			+ agent.mesh_list_vector.length;
+		assert CoreAddress < agent.mesh_list_vector.length : "CoreAddress=" 
+			+ CoreAddress + " to large for mesh_list_vector.length=" 
+			+ agent.mesh_list_vector.length;
+		
 		//byte ind [] = new byte[4];
 		//ind[0] = address[0];
 		//ind[1] = address[1];

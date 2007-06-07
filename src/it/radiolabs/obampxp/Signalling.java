@@ -841,6 +841,8 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
    	}
    	
    	public boolean SenderISValid(InetAddress address){
+   		log.debug("SenderISValid(" + address + ") - old_neighbors=" 
+   				+ old_neighbors);
    		if (old_neighbors!=null) {
 			OverlayNeighbor nb_old = old_neighbors.get(address);
 			if(nb_old!=null)
@@ -1603,14 +1605,19 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
    } 
     
     public InetAddress getAddresspkt(byte Address){
-      	 
-      	int id = Address;
-      	if(id<0){
-      		id=id+256;
-      	}
-      	return mesh_list_vector_Inet[id];
-      	
-          }
+
+    	int id = Address;
+
+    	// FIXME: Address was 4 when running 4 nodes -> IndexOutOfBounds
+    	//			the last node in the mesh_list_vector was core
+    	if(id<0){ // FIXME: this is really odd (fabian)
+    		id=id+256;
+    	}
+    	log.debug("getAddresspkt(...) tries to access" +
+    			" mesh_list_vector_Inet[" + id + "]");
+    	return mesh_list_vector_Inet[id];
+
+    }
    
     
     
