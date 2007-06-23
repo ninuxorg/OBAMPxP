@@ -47,7 +47,7 @@ shell con il seguente comando:
 	java -jar OBAMPxP.jar 
 Per avviare la sessione, premere il pulsante Join sulla GUI di OBAMPxP.
 
-Invio e ricezione di dati multicaat====================================
+Invio e ricezione di dati multicast====================================
 
 Le porte locali per la ricezione e l'invio dei dati sull'albero di 
 multicast sono rispettivamente la 9000 e la 9002.
