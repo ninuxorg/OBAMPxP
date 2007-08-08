@@ -113,11 +113,21 @@ public class Signalling implements Runnable{
    	
     public Signalling (Checkbox check_) throws Exception {
     	
-        db = new DB_Contest("obamp.cfg");
+        try {
+            db = new DB_Contest("obamp.cfg");
+        } catch (Exception e) {
+            log.fatal("failed to read obamp.cfg: " + e.getMessage() 
+                    + " - terminating");
+            System.exit(5);
+        }
+        
         try {
             local_address = InetAddress.getByName(db.get("local_address"));
         } catch (UnknownHostException e) {
-        	log.warn("Unkown host"+db.get("local_address")+" defaulting to localhost");
+        	log.warn("Unkown host"+ db.get("local_address") +
+        	        " defaulting to localhost");
+        	outputArea.append("Unkown host"+ db.get("local_address") + 
+        	        " defaulting to localhost");
         	local_address = InetAddress.getByName("localhost");
         }
         sig_port = new Integer( db.get("signalling_port")).intValue();
@@ -144,7 +154,12 @@ public class Signalling implements Runnable{
         try {
         	NodeListFetcher.getUrl(db);
         } catch (IOException e) {
+            //if (sig_dump_box.getState())  
+            outputArea.append("Failed to get " 
+                    + NodeListFetcher.OBAMP_NODES_FILE
+                    + ": " + e.getMessage());
         	log.error("Failed to get " + NodeListFetcher.OBAMP_NODES_FILE, e);
+        	
         }
         
         q = new Queue<SignallingElement>();

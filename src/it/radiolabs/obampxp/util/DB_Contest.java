@@ -23,6 +23,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -68,9 +69,14 @@ public class DB_Contest{
 	
 	
 	
-	public DB_Contest(String url_contest){
+	public DB_Contest(String url_contest) throws FileNotFoundException{
 		
 		File f = new File(url_contest);
+		if (!f.exists()) {
+		    throw new FileNotFoundException("File " + url_contest 
+		            + " not found");
+		}
+		
 		file_contest = f;
 		mark_file1 = 0;
 		mark_file2 = 0;

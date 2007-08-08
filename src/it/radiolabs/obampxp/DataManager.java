@@ -102,7 +102,14 @@ public class  DataManager implements Runnable{
 	public DataManager (CollabTool collab_) throws Exception {
      
 		collab = collab_;
-        db = new DB_Contest("obamp.cfg");
+		try {
+            db = new DB_Contest("obamp.cfg");
+		} catch (Exception e) {
+		    log.fatal("failed to read obamp.cfg: " + e.getMessage() 
+		            + " - terminating");
+		    System.exit(5);
+		}
+        
         dataport = new Integer( db.get("data_port")).intValue();
     	appRCVportChannelOne = new Integer( db.get("app_rcv_port_channel_one")).intValue();
     	appTXportChannelOne = new Integer( db.get("app_tx_port_channel_one")).intValue();
