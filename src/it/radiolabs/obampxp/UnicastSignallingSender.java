@@ -54,6 +54,7 @@ public class UnicastSignallingSender implements Runnable{
 		} catch (IOException e) {
 			// FIXME: bad exception handling
 			log.warn("I/O error while sending UDP packet", e);
+		    throw e;
 		}
 	  	
 	  	exec = new Thread (this, "UNICASTSIGNALLINGSENDER");

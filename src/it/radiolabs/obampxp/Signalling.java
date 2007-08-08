@@ -127,7 +127,7 @@ public class Signalling implements Runnable{
         	log.warn("Unkown host"+ db.get("local_address") +
         	        " defaulting to localhost");
         	outputArea.append("Unkown host"+ db.get("local_address") + 
-        	        " defaulting to localhost");
+        	        " defaulting to localhost\n");
         	local_address = InetAddress.getByName("localhost");
         }
         sig_port = new Integer( db.get("signalling_port")).intValue();
@@ -157,7 +157,7 @@ public class Signalling implements Runnable{
             //if (sig_dump_box.getState())  
             outputArea.append("Failed to get " 
                     + NodeListFetcher.OBAMP_NODES_FILE
-                    + ": " + e.getMessage());
+                    + ": " + e.getMessage() + "\n");
         	log.error("Failed to get " + NodeListFetcher.OBAMP_NODES_FILE, e);
         	
         }
@@ -1664,12 +1664,18 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
     public void run () {
     	
     	try {
-    		
 	    	USigRec = new UnicastSignallingReceiver(sig_port, state.MyAddress, this);
 	    	USigSend = new UnicastSignallingSender(state.MyAddress, sig_port-1, sig_port, this);
 			MSigRec = new MulticastSignallingReceiver(state.MyAddress, broadcast_port, multicast_address,this);
 	    	MSigSend = new MulticastSignallingSender(state.MyAddress, broadcast_port, multicast_address);
-	    	
+    	} catch (IOException e) {
+    	    outputArea.append("failed to create Unicast-/Multicast Sockets: "
+    	            + e.getMessage() + " (interface down? ipAddr. set?)\n");
+    	    log.fatal("failed to create Unicast-/Multicast Sockets", e);
+    	    return; // FIXME: consistent error handling
+        }
+    	
+    	try {
 	        this.Mesh_list_creator();
 	        new JoinedTimer(this);
 	        if (Operative_System.equals("Windows")){
@@ -1704,6 +1710,9 @@ public void sendHelloConf (byte SequenceNumber, InetAddress dest_addr, byte TTL)
 	    	}
     	} catch (Exception e) {
     		// FIXME: log-msg sux
+    	    if (sig_dump_box.getState()) 
+    	        outputArea.append("I/O error in Signaling.run(): " 
+    	                + e.getMessage()+"\n");
 			log.error("I/O error in run()", e);
 		}
     	
